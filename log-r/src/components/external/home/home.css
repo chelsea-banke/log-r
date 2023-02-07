@@ -1,0 +1,16 @@
+.grad{
+    background-image: linear-gradient(90deg, #a7cfff, rgb(186, 157, 255));
+}
+.home img{
+    margin: auto;
+    margin-top: 130px;
+    width: 80%;
+}
+.home span{
+    color: #82bafd;
+}
+@media screen and (max-width: 500px) {
+    .home img{
+        margin-top: 50px;
+    }   
+}
