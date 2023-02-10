@@ -1,0 +1,26 @@
+.extra{
+    margin: auto;
+}
+.extra h3{
+    line-height: 60px;
+}
+.signup img{
+    width: 25px;
+}
+.signup .form{
+    margin-top: 100px;
+}
+.signup .dual{
+    width: 76.25%;
+}
+@media screen and (max-width: 1000px) {
+    .signup .form{
+        margin-left: 18% !important;
+        margin-top: 50px;
+    }
+}
+@media screen and (max-width: 500px) {
+    .signup .form{
+        margin-left: 50px !important;
+    }
+}

@@ -1,5 +1,10 @@
 import { useState } from 'react'
+import { Route, Routes } from 'react-router-dom'
+
 import Home from './components/external/home/home'
+import Login from './components/external/login/login'
+import Signup from './components/external/signup/signup'
+
 import './App.css'
 
 function App() {
@@ -7,7 +12,11 @@ function App() {
 
   return (
     <div className="font-nunito">
-      <Home/>
+      <Routes>
+        <Route exact path="/" element={<Home/>} />
+        <Route path='/login' element={<Login/>} />
+        <Route path='/signup' element={<Signup/>} />
+      </Routes>
     </div>
   )
 }

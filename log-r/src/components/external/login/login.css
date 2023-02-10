@@ -1,0 +1,19 @@
+.extra{
+    margin: auto;
+}
+.extra h3{
+    line-height: 60px;
+}
+.login img{
+    width: 25px;
+}
+@media screen and (max-width: 1000px) {
+    .login .form{
+        margin-left: 18% !important;
+    }
+}
+@media screen and (max-width: 500px) {
+    .login .form{
+        margin-left: 50px !important;
+    }
+}

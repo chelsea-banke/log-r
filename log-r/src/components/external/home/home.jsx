@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import Header from "../../shared/header/header";
 import homeIllus from "./assets/undraw_online_test_re_kyfx.svg"
 import './home.css'
@@ -14,9 +15,11 @@ function Home(){
                     <p className="text-lg mx-5">
                         Create, manage, and store your logbooks online using our system</p>
                     <div className="mt-10">
-                        <button className="py-3 px-12 border-2 text-white  text-4xl bg-violet-500 border-violet-500 rounded-sm mx-2 w-fit mb-5 max-[500px]:px-4 max-[500px]:py-1">
+                        <Link to="/login">
+                            <button className="py-3 px-12 border-2 text-white  text-4xl bg-violet-500 border-violet-500 rounded-sm mx-2 w-fit mb-5 max-[500px]:px-4 max-[500px]:py-1">
                             Get Started !
-                        </button>
+                            </button>
+                        </Link>
                     </div>
                 </div>
                 <div className="w-1/2 h-full grad max-[900px]:w-full">
