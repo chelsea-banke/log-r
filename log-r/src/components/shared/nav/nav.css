@@ -4,3 +4,21 @@ nav{
 .menu{
     width: 40px !important;
 }
+@media screen and (max-width: 850px) {
+    .slide-in{
+        animation: nav-in 1.5s !important;
+        left: 0px;
+    }
+    .slide-out{
+        animation: nav-out 1.5s !important; 
+        left: -230px;
+    }
+}
+@keyframes nav-in {
+    0%{left: -230px}
+    100%{left: 0px}
+}
+@keyframes nav-out {
+    0%{left: 0px}
+    100%{left: -230px}
+}

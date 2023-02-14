@@ -5,7 +5,7 @@ import './dashboard.css'
 function Dashboard(){
     return(
         <div className="bg-stone-100 h-screen flex">
-            <Nav/>
+            <Nav dashboard={true} />
             <div className="relative"></div>
         </div>
     )
