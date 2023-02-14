@@ -1,15 +1,15 @@
-header{
+.header{
     background-color: rgb(255, 255, 255);
     backdrop-filter: blur(10px);
     top: 0px;
 }
 @media screen and (max-width: 900px) {
-    header{
+    .header{
         background-color: rgba(255, 255, 255, 0.774);
     }
 }
 @media screen and (max-width: 500px) {
-    header button{
+    .header button{
         padding: 9px !important;
     }
 }

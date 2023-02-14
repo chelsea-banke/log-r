@@ -5,7 +5,7 @@ import './header.css'
 function Header() {
 
     return(
-        <header className="w-full flex justify-between p-4 shadow-lg fixed">
+        <header className="header w-full flex justify-between p-4 shadow-lg fixed">
             <h1 className="text-4xl font-semibold text-violet-500 ml-10 mt-1 max-[500px]:ml-0">
                 LOG-R</h1>
             <div className="mr-5 max-[500px]:mr-0">

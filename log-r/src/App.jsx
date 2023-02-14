@@ -4,7 +4,7 @@ import { Route, Routes } from 'react-router-dom'
 import Home from './components/external/home/home'
 import Login from './components/external/login/login'
 import Signup from './components/external/signup/signup'
-import Dashboard from './components/internal/dashboard/dasboard'
+import Dashboard from './components/internal/dashboard/dashboard'
 
 import './App.css'
 

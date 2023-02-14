@@ -1,5 +1,6 @@
 nav{
     min-width: 230px;
+    z-index: 1;
 }
 .menu{
     width: 40px !important;
