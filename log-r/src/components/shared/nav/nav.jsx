@@ -35,7 +35,7 @@ function Nav(){
                     </div>
                     <button className="relative w-9/12 p-2 border border-gray-600 rounded-md m-auto mt-5 block text-left">Logout<img src="logout.svg" className="absolute right-3 top-2"/></button>
                 </div>
-                <button className="absolute w-fit p-5 border border-stone-100 text-2xl rounded-md top-0 right-0 text-violet-600" onClick={()=>{setNavDisplay('hidden')}}>X</button>
+                <button className="absolute invisible w-fit p-5 border border-stone-100 text-2xl rounded-md top-0 right-0 text-violet-600 max-[850px]:visible" onClick={()=>{setNavDisplay('hidden')}}>X</button>
             </nav>
 
             <div className="hidden p-4 justify-between w-screen max-[850px]:flex">
