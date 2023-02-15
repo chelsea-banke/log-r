@@ -1,6 +1,11 @@
 nav{
     min-width: 230px;
+    z-index: 2;
+}
+.mobile-nav{
+    background-color: rgba(245, 245, 244, 0.527);
     z-index: 1;
+    backdrop-filter: blur(5px);
 }
 .menu{
     width: 40px !important;

@@ -38,7 +38,7 @@ function Nav({dashboard, logbooks, guide, settings, contact}){
                 <button className="absolute invisible w-fit p-5 border border-stone-100 text-2xl rounded-md top-0 right-0 text-violet-600 max-[850px]:visible" onClick={()=>{setNavDisplay('slide-out')}}>X</button>
             </nav>
 
-            <div className="hidden p-4 justify-between w-screen max-[850px]:flex">
+            <div className="mobile-nav hidden fixed p-4 justify-between w-screen max-[850px]:flex">
                 <button className="block"><img src="menu.svg" className="menu" onClick={()=>{setNavDisplay('slide-in')}} /></button>
                 <div className="flex w-fit">
                     <div className="mr-3 mt-1"><img src="avatar.svg"/></div>
