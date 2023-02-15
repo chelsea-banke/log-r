@@ -26,13 +26,13 @@ function Nav({dashboard, logbooks, guide, settings, contact}){
                     </Link>
                 </div>
                 <div className="w-11/12 absolute bottom-8">
-                    <div className="flex m-auto w-fit">
+                    <Link className="flex m-auto w-fit" to='user-profile'>
                         <div className="mr-3 mt-1"><img src="avatar.svg"/></div>
                         <div>
                             <h2>Baki Hanna</h2>
                             <p className="text-sm text-gray-500">Bakiii@gmail.com</p>
                         </div>
-                    </div>
+                    </Link>
                     <button className="relative w-9/12 p-2 border border-gray-600 rounded-md m-auto mt-5 block text-left">Logout<img src="logout.svg" className="absolute right-3 top-2"/></button>
                 </div>
                 <button className="absolute invisible w-fit p-5 border border-stone-100 text-2xl rounded-md top-0 right-0 text-violet-600 max-[850px]:visible" onClick={()=>{setNavDisplay('slide-out')}}>X</button>
