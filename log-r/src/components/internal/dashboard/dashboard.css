@@ -1,11 +1,16 @@
-.dashboard{
-    overflow: hidden;
-    overflow-y: scroll;
-}
 .dashboard .logbooks{
     height: 400px;
     max-height: 400px !important;
     overflow-y: scroll;
+}
+.mask{
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0px;
+  left: 0px;
+  background-color: rgba(0, 0, 0, 0.397);
+  z-index: 1;
 }
 /* width */
 ::-webkit-scrollbar {

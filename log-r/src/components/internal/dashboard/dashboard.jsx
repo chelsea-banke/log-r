@@ -4,7 +4,7 @@ import './dashboard.css'
 
 function Dashboard(){
     return(
-        <div className="dashboard bg-stone-100 h-screen flex max-[850px]:block">
+        <div className="dashboard internal bg-stone-100 h-screen flex max-[850px]:block">
             <Nav dashboard={true} />
             <div className="relative w-full max-[850px]:mt-20">
                 <header className="w-full flex justify-between p-5 mt-2">
