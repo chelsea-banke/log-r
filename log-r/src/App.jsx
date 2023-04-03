@@ -7,9 +7,10 @@ import Signup from './components/external/signup/signup'
 import Dashboard from './components/internal/dashboard/dashboard'
 import CreateNewLogbook from './components/internal/create-new-logbook/create-new-logbook' 
 import Guide from './components/internal/guide/guide'
+import Logbooks from './components/internal/logbooks/logbooks'
+import Book from './components/shared/book/book'
 
 import './App.css'
-import Logbooks from './components/internal/logbooks/logbooks'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -24,6 +25,7 @@ function App() {
         <Route path='logbooks' element={<Logbooks/>} />
         <Route path='create-new-logbook' element={<CreateNewLogbook/>} />
         <Route path='/guide' element={<Guide/>} />
+        <Route path='/book' element={<Book/>} />
       </Routes>
     </div>
   )

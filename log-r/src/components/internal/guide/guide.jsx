@@ -1,4 +1,4 @@
-import Building from "../building/building";
+import Building from "../../shared/building/building";
 import Nav from "../../shared/nav/nav";
 import './guide.css'
 

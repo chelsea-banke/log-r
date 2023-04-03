@@ -1,0 +1,18 @@
+.log{
+    width: 48%;
+}
+.book .book{
+    max-height: 100vh;
+    overflow-y: scroll;
+}
+@media screen and (max-width: 850px) {
+    .book .book{
+        max-height: none;
+        overflow-y:auto;
+    }
+}
+@media screen and (max-width: 600px) {
+    .log{
+        width: 90%;
+    }
+}
