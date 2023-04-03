@@ -15,7 +15,7 @@ function Nav({dashboard, logbooks, guide, settings, contact, mask=false}){
                     <Link to="/logbooks">
                         <div className={`w-9/12 p-2 rounded-md m-auto mb-3 bg-${logbooks ? "purple-200" : "white"} hover:bg-purple-100`}><img src="folder.svg" className="inline mb-1 mr-3"/>Logbooks</div>
                     </Link>
-                    <Link to="">
+                    <Link to="/guide">
                         <div className={`w-9/12 p-2 rounded-md m-auto mb-3 bg-${guide ? "purple-200" : "white"} hover:bg-purple-100`}><img src="guide.svg" className="inline mb-1 mr-4"/>Guide</div>
                     </Link>
                     <Link to="">

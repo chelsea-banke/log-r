@@ -6,6 +6,7 @@ import Login from './components/external/login/login'
 import Signup from './components/external/signup/signup'
 import Dashboard from './components/internal/dashboard/dashboard'
 import CreateNewLogbook from './components/internal/create-new-logbook/create-new-logbook' 
+import Guide from './components/internal/guide/guide'
 
 import './App.css'
 import Logbooks from './components/internal/logbooks/logbooks'
@@ -22,6 +23,7 @@ function App() {
         <Route path='dashboard' element={<Dashboard/>} />
         <Route path='logbooks' element={<Logbooks/>} />
         <Route path='create-new-logbook' element={<CreateNewLogbook/>} />
+        <Route path='/guide' element={<Guide/>} />
       </Routes>
     </div>
   )

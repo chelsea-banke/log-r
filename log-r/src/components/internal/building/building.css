@@ -1,0 +1,30 @@
+.building div{
+    width: 350px;
+    height: 400px;
+}
+.building img{
+    position: absolute;
+    width: 200px !important;
+}
+.gear-1{
+    animation: rot-1 10s infinite linear;
+}
+.gear-2{
+    top: 150px;
+    transform: rotate(18deg);
+    animation: rot-2 10s infinite linear reverse;
+}
+.gear-4{
+    left: 148px !important;
+    transform: rotate(18deg);
+    top: 125px;
+    animation: rot-2 10s infinite linear;
+}
+@keyframes rot-1 {
+    0%{transform: rotate(0deg);}
+    0%{transform: rotate(360deg);}
+}
+@keyframes rot-2 {
+    0%{transform: rotate(18deg);}
+    0%{transform: rotate(378deg);}
+}
