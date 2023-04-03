@@ -8,6 +8,7 @@ import Dashboard from './components/internal/dashboard/dashboard'
 import CreateNewLogbook from './components/internal/create-new-logbook/create-new-logbook' 
 
 import './App.css'
+import Logbooks from './components/internal/logbooks/logbooks'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -18,7 +19,8 @@ function App() {
         <Route exact path="/" element={<Home/>} />
         <Route path='/login' element={<Login/>} />
         <Route path='/signup' element={<Signup/>} />
-        <Route path='dashboard/*' element={<Dashboard/>} />
+        <Route path='dashboard' element={<Dashboard/>} />
+        <Route path='logbooks' element={<Logbooks/>} />
         <Route path='create-new-logbook' element={<CreateNewLogbook/>} />
       </Routes>
     </div>

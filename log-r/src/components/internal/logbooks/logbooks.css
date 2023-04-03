@@ -1,0 +1,21 @@
+.logbooks .logbooks{
+    height: 350px;
+    max-height: 350px !important;
+    overflow-y: scroll;
+}
+section{
+    padding-bottom: 10px !important;
+}
+.create-new{
+    right: 75px;
+}
+.select{
+    margin-bottom: -30px !important;
+}
+@media screen and (max-width: 750px) {
+    .logbooks .logbooks{
+        height: 450px;
+        max-height: 450px !important;
+        overflow-y: scroll;
+    } 
+}

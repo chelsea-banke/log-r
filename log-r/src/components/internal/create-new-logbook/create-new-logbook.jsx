@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom"
 import Nav from "../../shared/nav/nav"
 import InputField from "../../shared/input/input"
 import "./create-new-logbook.css"
@@ -38,7 +39,9 @@ function CreateNewLogbook(){
                 <div className="mx-10 flex w-full justify-start max-[680px]:block max-[680px]:mx-5">
                     <div className="w-5/12 relative"></div>
                     <div className="w-5/12 px-5 rounded-md ml-10 relative max-[680px]:w-11/12 max-[680px]:ml-0">
-                        <button className="block w-full py-2 rounded-md bg-stone-100 text-red-500 border border-red-500 font-semibold mt-5">Cancel</button>
+                        <Link to="/dashboard">
+                            <button className="block w-full py-2 rounded-md bg-stone-100 text-red-500 border border-red-500 font-semibold mt-5">Cancel</button>
+                        </Link>
                     </div>
                 </div>
             </div>

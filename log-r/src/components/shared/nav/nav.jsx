@@ -3,16 +3,16 @@ import { Link } from "react-router-dom";
 import './nav.css'
 
 function Nav({dashboard, logbooks, guide, settings, contact, mask=false}){
-    const [display, setNavDisplay] = useState('slide-out')
+    const [display, setNavDisplay] = useState('routed')
     return(
         <div className="">
             <nav className={`relative nav bg-white h-full ${display} max-[850px]:fixed max-[850px]:border-2`}>
                 <h1 className="text-4xl font-semibold text-violet-500 p-8 ">LOG-R</h1>
                 <div className="relative w-full blg-gray-100 tracking-wide">
-                    <Link to="">
+                    <Link to="/dashboard">
                         <div className={`w-9/12 p-2 rounded-md bg-${dashboard ? "purple-200" : "white"} m-auto mb-3 hover:bg-purple-100`}><img src="dashboard.svg" className="inline mb-2 mr-3"/>Dashboard</div>
                     </Link>
-                    <Link to="">
+                    <Link to="/logbooks">
                         <div className={`w-9/12 p-2 rounded-md m-auto mb-3 bg-${logbooks ? "purple-200" : "white"} hover:bg-purple-100`}><img src="folder.svg" className="inline mb-1 mr-3"/>Logbooks</div>
                     </Link>
                     <Link to="">
@@ -39,7 +39,7 @@ function Nav({dashboard, logbooks, guide, settings, contact, mask=false}){
                 <div className={`mask ${mask ? 'block': 'hidden'}`}></div>
             </nav>
 
-            <div className={`mobile-nav hidden max-[850px]:${mask ? 'hidden': 'flex'} fixed p-4 justify-between w-screen`}>
+            <div className={`mobile-nav border-b border-gray-500 flex max-[850px]:${mask ? 'hidden': 'flex'} fixed p-4 justify-between w-screen`}>
                 <button className="block"><img src="menu.svg" className="menu" onClick={()=>{setNavDisplay('slide-in')}} /></button>
                 <div className="flex w-fit">
                     <div className="mr-3 mt-1"><img src="avatar.svg"/></div>

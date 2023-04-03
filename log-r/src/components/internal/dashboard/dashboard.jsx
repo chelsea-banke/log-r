@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import Nav from "../../shared/nav/nav";
 import './dashboard.css'
 
@@ -54,7 +55,9 @@ function Dashboard(){
                                     <h3 className="text-2xl max-[500px]:text-xl">Downloads</h3>
                                 </div>
                             </div>
-                            <button className="w-9/12 bg-violet-500 p-3 text-white rounded-md mt-10 font-semibold tracking-wider  mx-auto block max-[1145px]:w-10/12">Create New +</button>
+                            <Link to="/create-new-logbook">
+                                <button className="w-9/12 bg-violet-500 p-3 text-white rounded-md mt-10 font-semibold tracking-wider  mx-auto block max-[1145px]:w-10/12">Create New +</button>
+                            </Link>
                     </section>
                 </div>
             </div>

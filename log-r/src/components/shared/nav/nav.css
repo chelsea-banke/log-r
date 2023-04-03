@@ -19,6 +19,9 @@ nav{
         animation: nav-out 1.5s !important; 
         left: -230px;
     }
+    .routed{
+        left: -230px;
+    }
 }
 @keyframes nav-in {
     0%{left: -230px}
