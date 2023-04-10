@@ -23,11 +23,11 @@ function Dashboard(){
                         </div>
                     </div>
                 </header>
-                <div className="w-full flex justify-between max-[750px]:block">
+                <div className="w-full flex justify-between max-[750px]:block main">
                     <section className="w-1/2 mt-10 max-[750px]:w-full">
                         <p className="text-sm text-gray-500 w-9/12 m-auto">logbooks</p>
                         <div className="bg-white w-9/12 m-auto p-4 pt-6 rounded-md logbooks max-[750px]:w-10/12">
-                            {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((i)=>{
+                            {[1, 2, 3].map((i)=>{
                                 return <div className="w-full">
                                     <button className="bg-violet-100 w-8/12 text-left text-violet-900 py-2 px-3 my-1 rounded-md hover:bg-violet-200">Logbook {i}</button><span className="ml-4 text-green-500">complete</span>
                                 </div>
@@ -56,7 +56,7 @@ function Dashboard(){
                                 </div>
                             </div>
                             <Link to="/create-new-logbook">
-                                <button className="w-9/12 bg-violet-500 p-3 text-white rounded-md mt-10 font-semibold tracking-wider  mx-auto block max-[1145px]:w-10/12">Create New +</button>
+                                <button className="mb-10 w-9/12 bg-violet-500 p-3 text-white rounded-md mt-10 font-semibold tracking-wider mx-auto block max-[1145px]:w-10/12">Create New +</button>
                             </Link>
                     </section>
                 </div>

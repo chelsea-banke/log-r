@@ -11,16 +11,36 @@ nav{
     width: 40px !important;
 }
 @media screen and (max-width: 850px) {
+    .mobile-mask{
+        width: 100vw !important;
+        height: 100vh !important;
+        position: absolute;
+        left: 0px;
+        top: 0px;
+        background-color: rgba(0, 0, 0, 0.377);
+        z-index: 1 !important;
+    }
+    .mask-in{
+        animation: mask-in 1s !important;
+        left: 0px;
+    }
+    .mask-out{
+        animation: mask-out 1s !important; 
+        left: -100vw;
+    }
     .slide-in{
-        animation: nav-in 1.5s !important;
+        animation: nav-in 1s !important;
         left: 0px;
     }
     .slide-out{
-        animation: nav-out 1.5s !important; 
+        animation: nav-out 1s !important; 
         left: -230px;
     }
     .routed{
         left: -230px;
+    }
+    .mask-routed{
+        left: -100vw;
     }
 }
 @keyframes nav-in {
@@ -30,4 +50,12 @@ nav{
 @keyframes nav-out {
     0%{left: 0px}
     100%{left: -230px}
+}
+@keyframes mask-in {
+    0%{left: -100vw}
+    100%{left: 0px}
+}
+@keyframes mask-out {
+    0%{left: 0px}
+    100%{left: -100vw}
 }

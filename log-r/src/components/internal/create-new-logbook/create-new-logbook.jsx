@@ -7,7 +7,7 @@ function CreateNewLogbook(){
     return(
         <div className="internal bg-stone-100 h-screen flex max-[850px]:block">
             <Nav mask={true}/>
-            <div className="relative w-full max-[850px]:mt-10">
+            <div className="relative w-full max-[850px]:mt-5">
                 <div className="w-full py-7 mx-10 max-[680px]:mx-5" >
                     <h2 className="text-3xl mb-2">Default Data</h2>
                     <p className="text-gray-500">We’ll need some default data from you to use across this logbook</p>
@@ -40,7 +40,7 @@ function CreateNewLogbook(){
                     <div className="w-5/12 relative"></div>
                     <div className="w-5/12 px-5 rounded-md ml-10 relative max-[680px]:w-11/12 max-[680px]:ml-0">
                         <Link to="/dashboard">
-                            <button className="block w-full py-2 rounded-md bg-stone-100 text-red-500 border border-red-500 font-semibold mt-5">Cancel</button>
+                            <button className="mb-10 block w-full py-2 rounded-md bg-stone-100 text-red-500 border border-red-500 font-semibold mt-5">Cancel</button>
                         </Link>
                     </div>
                 </div>

@@ -10,6 +10,8 @@ import Guide from './components/internal/guide/guide'
 import Logbooks from './components/internal/logbooks/logbooks'
 import Book from './components/internal/book/book'
 import CreateNewLog from './components/internal/create-new-log/create-new-log'
+import Settings from './components/internal/settings/settings'
+import Contact from './components/internal/contact/contact'
 
 import './App.css'
 
@@ -28,6 +30,8 @@ function App() {
         <Route path='/guide' element={<Guide/>} />
         <Route path='/book' element={<Book/>} />
         <Route path='/create-new-log' element={<CreateNewLog/>} />
+        <Route path='/settings' element={<Settings/>} />
+        <Route path='/contact' element={<Contact/>} />
       </Routes>
     </div>
   )
