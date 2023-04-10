@@ -1,5 +1,7 @@
 .log{
     width: 48%;
+    height: fit-content;
+    min-height: 175px;
 }
 .book .book{
     max-height: 100vh;
