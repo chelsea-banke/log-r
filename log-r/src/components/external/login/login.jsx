@@ -27,8 +27,10 @@ function Login(){
                         <div>Remember me</div>
                         <div className='text-violet-500'><Link to="/recovery"/>Forgot password ?</div>
                     </div>
-                    <button className="w-3/4 py-3 px-6 mt-10 border-2 text-white bg-violet-500 border-violet-500 font-semibold rounded-md m-4">
+                    <Link to="/dashboard">
+                        <button type='button' className="w-3/4 py-3 px-6 mt-10 border-2 text-white bg-violet-500 border-violet-500 font-semibold rounded-md m-4">
                     Login</button>
+                    </Link>
                 </form>
                 <button className="w-3/4 py-3 px-6 border-2 text-gray-900 bg-white border-gray-300 rounded-md m-4">
                 <img className='inline' src={Google} /> Login with Google</button>
