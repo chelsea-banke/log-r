@@ -22,9 +22,9 @@ function App() {
         <Route exact path="/" element={<Home/>} />
         <Route path='/login' element={<Login/>} />
         <Route path='/signup' element={<Signup/>} />
-        <Route path='dashboard' element={<Dashboard/>} />
-        <Route path='logbooks' element={<Logbooks/>} />
-        <Route path='create-new-logbook' element={<CreateNewLogbook/>} />
+        <Route path='/dashboard' element={<Dashboard/>} />
+        <Route path='/logbooks' element={<Logbooks/>} />
+        <Route path='/create-new-logbook' element={<CreateNewLogbook/>} />
         <Route path='/guide' element={<Guide/>} />
         <Route path='/book' element={<Book/>} />
         <Route path='/create-new-log' element={<CreateNewLog/>} />
