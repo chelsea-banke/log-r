@@ -33,7 +33,7 @@ function CreateNewLogbook(){
                         <InputField placehold="Douala" label="Address" styles="mt-5"/>
                         <InputField placehold="6XX-XXX-XXX" label="Phone Number" styles="mt-5"/>
                         <InputField placehold="xxxinc@gmail.com" label="Email" styles="mt-5"/>
-                        <button className="block w-full py-2 rounded-md bg-violet-600 text-white mt-8 font-semibold">Create Logbook</button>
+                        <Link to="/book"><button type="button" className="block w-full py-2 rounded-md bg-violet-600 text-white mt-8 font-semibold">Create Logbook</button></Link>
                     </div>
                 </form>
                 <div className="mx-10 flex w-full justify-start max-[680px]:block max-[680px]:mx-5">
