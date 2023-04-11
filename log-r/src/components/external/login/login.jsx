@@ -6,7 +6,7 @@ import './login.css'
 
 function Login(){
     return(
-        <div className='login h-screen flex justify-between'>
+        <div className='login h-screen flex justify-between max-[1000px]:block'>
             <div className='w-1/2 h-full max-[1000px]:hidden'>
                 <h2 className='text-6xl ml-20  my-10'>Login</h2>
                 <div className='bg-violet-500 p-10 w-3/4 extra text-white rounded-md py-15'>
@@ -14,25 +14,25 @@ function Login(){
                     <p className='mt-10 text-lg'>Create profile pictures, online gaming display pictures, and much more on the go.</p>
                 </div>
             </div>
-            <div className='form w-1/2 h-full max-[1000px]:m-auto max-[1000px]:w-screen'>
+            <div className='form w-1/2 h-full max-[1000px]:m-auto max-[1000px]:w-full'>
                 <div className='m-4 w-3/4 my-10'>
                     <h2 className='text-3xl max-[1000px]:hidden'>Hey, Welcome back</h2>
                     <h2 className='hidden text-3xl max-[1000px]:block'>Login</h2>
                     <p className='mt-1'>Enter the info you used to sign up</p>
                 </div>
-                <form className=''>
+                <form className='w-full'>
                     <InputField label="Email Adress" styles="w-3/4 m-4" type="email"/>
                     <InputField label="Password" styles="w-3/4 m-4" type="password"/>
-                    <div className='flex justify-between w-3/4 m-4'>
+                    <div className='flex justify-between w-3/4 m-4 opt'>
                         <div>Remember me</div>
                         <div className='text-violet-500'><Link to="/recovery"/>Forgot password ?</div>
                     </div>
                     <Link to="/dashboard">
-                        <button type='button' className="w-3/4 py-3 px-6 mt-10 border-2 text-white bg-violet-500 border-violet-500 font-semibold rounded-md m-4">
+                        <button type='button' className="block w-3/4 py-3 px-6 mt-10 border-2 text-white bg-violet-500 border-violet-500 font-semibold rounded-md m-4">
                     Login</button>
                     </Link>
                 </form>
-                <button className="w-3/4 py-3 px-6 border-2 text-gray-900 bg-white border-gray-300 rounded-md m-4">
+                <button className="block w-3/4 py-3 px-6 border-2 text-gray-900 bg-white border-gray-300 rounded-md m-4 max-[1000px]:mx-auto">
                 <img className='inline' src={Google} /> Login with Google</button>
                 <p className='m-4 w-3/4 text-center'>Don't have an account? <span className='text-violet-500'><Link to="/signup">Sign up</Link></span></p>
             </div>

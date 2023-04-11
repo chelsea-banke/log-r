@@ -15,7 +15,7 @@ function Signup(){
                 </div>
             </div>
             <div className='form w-1/2 h-full max-[1000px]:m-auto max-[1000px]:w-screen'>
-                <h2 className='hidden m-4 text-3xl max-[1000px]:block'>Sign up</h2>
+                <h2 className='hidden m-4 text-3xl max-[1000px]:block title'>Sign up</h2>
                 <form className=''>
                     <div className='dual flex justify-between m-3'>
                         <InputField label="First Name" styles="w-1/2 m-1" />
@@ -27,12 +27,12 @@ function Signup(){
                         <div>Remember me</div>
                         <div className='text-violet-500'><Link to="/recovery"/>Forgot password ?</div>
                     </div>
-                    <div className='dual flex w-3/4 m-3'>
+                    <div className='dual flex justify-between w-3/4 m-3'>
                         <button className="w-1/2 py-3 px-6 mt-10 border-2 text-red-500 bg-white-500 border-red-500 font-semibold rounded-md m-1">Cancel</button>
                         <button className="w-1/2 py-3 px-6 mt-10 border-2 text-white bg-violet-500 border-violet-500 font-semibold rounded-md m-1">Create account</button>
                     </div>
                 </form>
-                <button className="w-3/4 py-3 px-6 border-2 text-gray-900 bg-white border-gray-300 rounded-md m-4">
+                <button className="block w-3/4 py-3 px-6 border-2 text-gray-900 bg-white border-gray-300 rounded-md m-4">
                 <img className='inline' src={Google} /> Signup with Google</button>
                 <p className='m-4 w-3/4 text-center'>Already have an account? <span className='text-violet-500'><Link to="/login">Login</Link></span></p>
             </div>

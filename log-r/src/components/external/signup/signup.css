@@ -13,14 +13,27 @@
 .signup .dual{
     width: 76.25%;
 }
+.title{
+    width: 78%;
+}
 @media screen and (max-width: 1000px) {
     .signup .form{
-        margin-left: 18% !important;
-        margin-top: 50px;
+        margin-top: 20px;
+    }
+    .form *{
+        margin-left: auto !important;
+        margin-right: auto !important;
+    }
+    .signup .dual button{
+        width: 49%;
+    }
+    
+    .signup .dual input{
+        width: 99%;
     }
 }
 @media screen and (max-width: 500px) {
-    .signup .form{
-        margin-left: 50px !important;
+    .opt{
+        width: 85% !important;
     }
 }

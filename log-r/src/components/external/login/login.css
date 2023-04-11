@@ -8,12 +8,13 @@
     width: 25px;
 }
 @media screen and (max-width: 1000px) {
-    .login .form{
-        margin-left: 18% !important;
+    .form *{
+        margin-left: auto !important;
+        margin-right: auto !important;
     }
 }
 @media screen and (max-width: 500px) {
-    .login .form{
-        margin-left: 50px !important;
+    .opt{
+        width: 85% !important;
     }
 }
