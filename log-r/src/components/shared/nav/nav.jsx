@@ -2,9 +2,9 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import './nav.css'
 
-function Nav({dashboard, logbooks, guide, settings, contact, mask=false}){
-    const [display, setNavDisplay] = useState('routed')
-    const [maskDisplay, setMaskDisplay] = useState('mask-routed')
+function Nav({dashboard=false, logbooks=false, guide=false, settings=false, contact=false, mask=false}){
+    const [display, setNavDisplay] = useState(()=>{if (!mask){return ('slide-out')} else {return ('default-nav')}})
+    const [maskDisplay, setMaskDisplay] = useState(()=>{if (!mask){return ('mask-out')} else {return ('default-mask')}})
     return(
         <div className="">
             <nav className={`relative nav bg-white h-full ${display} max-[850px]:fixed max-[850px]:border-2`}>

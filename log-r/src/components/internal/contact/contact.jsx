@@ -5,7 +5,7 @@ import './contact.css'
 function Contact(){
     return(
         <div className="dashboard internal bg-stone-100 h-screen flex max-[850px]:block">
-            <Nav dashboard={true} />
+            <Nav contact={true} />
             <div className="relative w-full max-[850px]:mt-20">
                 <Building/>
             </div>

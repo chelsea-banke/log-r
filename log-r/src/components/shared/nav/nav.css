@@ -10,6 +10,9 @@ nav{
 .menu{
     width: 40px !important;
 }
+.bg-purple-200{
+    background-color:rgb(233 213 255);
+}
 @media screen and (max-width: 850px) {
     .mobile-mask{
         width: 100vw !important;
@@ -36,10 +39,10 @@ nav{
         animation: nav-out 1s !important; 
         left: -230px;
     }
-    .routed{
+    .default-nav{
         left: -230px;
     }
-    .mask-routed{
+    .default-mask{
         left: -100vw;
     }
 }
