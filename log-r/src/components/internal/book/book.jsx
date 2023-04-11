@@ -4,10 +4,29 @@ import Building from '../../shared/building/building'
 import './book.css'
 
 function Book(){
+    function scrollToTop(id) {
+        const element = document.getElementById(id)
+        const currentScroll = element.scrollTop;
+        if (currentScroll === 0) return;
+      
+        const duration = 500; // in milliseconds
+        const start = performance.now();
+      
+        function animateScroll(timestamp) {
+          const elapsed = timestamp - start;
+          const progress = elapsed / duration;
+          const ease = Math.sin(progress * Math.PI / 2);
+          element.scrollTop = currentScroll * (1 - ease);
+          if (elapsed < duration) {
+            requestAnimationFrame(animateScroll);
+          }
+        }
+        requestAnimationFrame(animateScroll);
+    }
     return(
         <div className="book internal bg-stone-100 h-screen flex max-[850px]:block">
             <Nav dashboard={true} />
-            <div className="book relative w-full max-[850px]:mt-20">
+            <div className="book relative w-full max-[850px]:pt-20" id='window'>
                 <header className="w-full flex justify-end p-5 mt-2">
                     <div className='w-fit'>
                         <h2 className='text-4xl font-semibold'>Logbook 1</h2>
@@ -20,12 +39,14 @@ function Book(){
                 <div className='px-10 max-[600px]:px-5'>
                     {[1, 2 ,3 ,4].map((week)=>{
                         return(
-                            <div className='mb-10'>
-                                <div className='text-violet-600'>Week {week}</div>
-                                <div className='w-full flex justify-end border-t-2 border-violet-400'>
-                                    <Link to='/create-new-log'>
-                                        <button className='text-3xl text-violet-600 px-3 py-1 border-2 border-violet-500 rounded-md'>+</button>
-                                    </Link>
+                            <div className='mb-10 '>
+                                <div className='sticky hold'>
+                                    <div className='text-violet-600 bg-stone-100 pt-12 max-[850px]:pt-3'>Week {week}</div>
+                                    <div className='w-full flex justify-end border-t-2 border-violet-400'>
+                                        <Link to='/create-new-log'>
+                                            <button className='text-3xl text-violet-600 px-3 py-1 border-2 border-violet-500 rounded-md bg-stone-100'>+</button>
+                                        </Link>
+                                    </div>
                                 </div>
                                 <div className='flex justify-between flex-wrap mt-2'>
                                     {[0, 1, 2, 3, 4, 5, 6].map((i)=>{
@@ -40,6 +61,9 @@ function Book(){
                             </div>
                         )
                     })}
+                    <button className='top p-5 bg-violet-500' onClick={()=>scrollToTop('window')}>
+                        <img src='top.png'/>
+                    </button>
                 </div>
             </div>
         </div>

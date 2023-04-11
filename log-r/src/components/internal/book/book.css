@@ -7,14 +7,30 @@
     max-height: 100vh;
     overflow-y: scroll;
 }
+.hold{
+    top: -5px;
+}
+.top{
+    border-radius: 50%;
+    position: fixed;
+    bottom: 40px;
+    right: 32px;
+}
+.top img{
+    width: 30px;
+}
 @media screen and (max-width: 850px) {
     .book .book{
-        max-height: none;
-        overflow-y:auto;
+        /* max-height: none; */
+        overflow-y: auto;
     }
 }
 @media screen and (max-width: 600px) {
     .log{
         width: 90%;
+    }
+    .top{
+        bottom: 40px;
+        right: 13px;
     }
 }
