@@ -4,6 +4,7 @@ import Nav from "../../shared/nav/nav";
 import './dashboard.css'
 
 function Dashboard(){
+    const [view, setView] = useState('all')
     return(
         <div className="dashboard internal bg-stone-100 h-screen flex max-[850px]:block">
             <Nav dashboard={true} />
@@ -25,8 +26,17 @@ function Dashboard(){
                 </header>
                 <div className="w-full flex justify-between max-[750px]:block main">
                     <section className="w-1/2 mt-10 max-[750px]:w-full">
-                        <p className="text-sm text-gray-500 w-9/12 m-auto">logbooks</p>
-                        <div className="bg-white w-9/12 m-auto p-4 pt-6 rounded-md logbooks max-[750px]:w-10/12">
+                        {/* <p className="text-sm text-gray-500 w-9/12 m-auto">logbooks</p> */}
+                        <p className="text-sm m-auto text-gray-500 w-9/12">view:
+                            <span>
+                                <select className='text-gray-500 mx-3' value={view} onChange={(e)=>setView(e.target.value)}>
+                                    <option value='all'>All</option>
+                                    <option value='incomplete'>Incomplete</option>
+                                    <option value='completed'>completed</option>
+                                </select>
+                            </span>
+                        </p>
+                        <div className="bg-white w-9/12 m-auto p-4 pt-6 rounded-md logbooks max-[750px]:w-11/12">
                             {[1, 2, 3].map((i)=>{
                                 return <div className="w-full">
                                     <button className="bg-violet-100 w-8/12 text-left text-violet-900 py-2 px-3 my-1 rounded-md hover:bg-violet-200">Logbook {i}</button><span className="ml-4 text-green-500">complete</span>
