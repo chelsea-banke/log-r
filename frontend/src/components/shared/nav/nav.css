@@ -14,6 +14,9 @@ nav{
     background-color:rgb(233 213 255);
 }
 @media screen and (max-width: 850px) {
+    nav{
+        position: fixed !important;
+    }
     .mobile-mask{
         width: 100vw !important;
         height: 100vh !important;

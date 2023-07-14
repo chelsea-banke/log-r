@@ -7,15 +7,15 @@ function Nav({dashboard=false, logbooks=false, guide=false, settings=false, cont
     const [maskDisplay, setMaskDisplay] = useState(()=>{if (!mask){return ('mask-out')} else {return ('default-mask')}})
     return(
         <div className="">
-            <nav className={`relative nav bg-white h-full ${display} max-[850px]:fixed max-[850px]:border-2`}>
+            <nav className={`relative nav bg-white border-r border-green-400 h-full ${display} max-[850px]:fixed`}>
                 <h1 className="text-4xl font-semibold text-violet-500 p-8 border-violet-600">LOG-R</h1>
                 <div className="relative w-full blg-gray-100 tracking-wide">
                     <Link to="/dashboard">
                         <div className={`w-9/12 p-2 rounded-md bg-${dashboard ? "purple-200" : "white"} m-auto mb-3 hover:bg-purple-100`}><img src="dashboard.svg" className="inline mb-2 mr-3"/>Dashboard</div>
                     </Link>
-                    <Link to="/logbooks">
+                    {/* <Link to="/logbooks">
                         <div className={`w-9/12 p-2 rounded-md m-auto mb-3 bg-${logbooks ? "purple-200" : "white"} hover:bg-purple-100`}><img src="folder.svg" className="inline mb-1 mr-3"/>Logbooks</div>
-                    </Link>
+                    </Link> */}
                     <Link to="/guide">
                         <div className={`w-9/12 p-2 rounded-md m-auto mb-3 bg-${guide ? "purple-200" : "white"} hover:bg-purple-100`}><img src="guide.svg" className="inline mb-1 mr-4"/>Guide</div>
                     </Link>
