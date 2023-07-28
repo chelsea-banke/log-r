@@ -1,9 +1,13 @@
-const express = require('express');
+require("dotenv").config()
+const authController = require("./src/controllers/authController")
+const pool = require("./src/utils/pool")
+const express = require('express')
 
-const app = express();
+const server = express()
+server.use(express.json())
+server.use("/api/auth", authController)
 
-app.get('/', (req, res) => {
-  res.send('Successful response.');
-});
-
-app.listen(3300, () => console.log('Example app is listening on port 3000.'));
+server.listen(process.env.SERVER_PORT, async () => {
+  console.log(`server is listening on port ${process.env.SERVER_PORT}...`)
+  pool.sync()
+})
