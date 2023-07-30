@@ -40,7 +40,6 @@ const signIn = async (req, res, next)=>{
             "data": credentials
         })
     }
-    next()
 }
 
 module.exports = signIn
