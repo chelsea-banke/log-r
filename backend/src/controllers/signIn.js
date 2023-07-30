@@ -1,3 +1,4 @@
+const bcrypt = require("bcryptjs")
 const Users = require("../models/users")
 const fieldCheck = require("../utils/fieldCheck")
 
@@ -7,19 +8,22 @@ const signIn = async (req, res, next)=>{
     if(fieldCheck(credentials)){
         await Users.findByPk(credentials["email"]).then(user=>{
             if(user != null){
-                if (user["dataValues"]["password"] == credentials["password"]){
-                    res.status(200).json({
-                        "success": true,
-                        "message": "signIn successful",
-                        "user": user["dataValues"]
-                    })
-                }
-                else{
-                    res.status(409).json({
-                        "success": false,
-                        "message": "incorrect password"
-                    })
-                }
+                bcrypt.compare(credentials["password"], user["dataValues"]["password"]).then(match => {
+
+                    if (match){
+                        res.status(200).json({
+                            "success": true,
+                            "message": "signIn successful",
+                            "user": user["dataValues"]
+                        })
+                    }
+                    else{
+                        res.status(409).json({
+                            "success": false,
+                            "message": "incorrect password"
+                        })
+                    }
+                })
             }
             else{
                 res.status(409).json({

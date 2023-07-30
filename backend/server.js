@@ -1,7 +1,6 @@
 require("dotenv").config()
 const authRouter = require("./src/routes/auth")
 const pool = require("./src/utils/pool")
-const gracefulShutdown = require("./src/utils/gracefulShutdown")
 const express = require('express')
 
 const server = express()
