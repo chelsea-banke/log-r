@@ -1,9 +1,11 @@
+const jwt = require("jsonwebtoken")
 const bcrypt = require("bcryptjs")
 const Users = require("../models/users")
 const fieldCheck = require("../utils/fieldCheck")
 
 const signIn = async (req, res, next)=>{
     const credentials = req.body
+    const jwtSecret = process.env.JWT_SECRET
 
     if(fieldCheck(credentials)){
         await Users.findByPk(credentials["email"]).then(user=>{
@@ -11,6 +13,17 @@ const signIn = async (req, res, next)=>{
                 bcrypt.compare(credentials["password"], user["dataValues"]["password"]).then(match => {
 
                     if (match){
+                        const token = jwt.sign(
+                            {"emeil": user["dataValues"]["email"]},
+                            jwtSecret,
+                            {"expiresIn": 3600}
+                        )
+                        
+                        res.cookie("jwt", token, {
+                            "httpOnly": true,
+                            "maxAge": 3600
+                        })
+
                         res.status(200).json({
                             "success": true,
                             "message": "signIn successful",

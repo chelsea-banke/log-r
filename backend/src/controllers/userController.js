@@ -38,6 +38,13 @@ const updatePassword = async (req, res)=>{
             })
         })
     }
+    else {
+        res.status(400).json({
+            "success": false,
+            "message": "empty or undefined field detected"
+        })
+    }
 }
+
 
 module.exports = {updatePassword}
