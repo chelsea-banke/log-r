@@ -1,7 +1,7 @@
 const jwt = require("jsonwebtoken")
 const bcrypt = require("bcryptjs")
-const Users = require("../models/users")
-const fieldCheck = require("../utils/fieldCheck")
+const Users = require("../../models/users")
+const fieldCheck = require("../../utils/fieldCheck")
 
 const signIn = async (req, res, next)=>{
     const credentials = req.body

@@ -1,6 +1,6 @@
 const bcrypt = require("bcryptjs")
-const Users = require("../models/users")
-const fieldCheck = require("../utils/fieldCheck")
+const Users = require("../../models/users")
+const fieldCheck = require("../../utils/fieldCheck")
 
 const updatePassword = async (req, res)=>{
     const passwords = req.body
