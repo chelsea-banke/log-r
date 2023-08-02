@@ -1,7 +1,7 @@
 const { DataTypes } = require("sequelize")
-const pool = require("../utils/pool")
+const connection = require("../utils/connection")
 
-const Users = pool.define('users', {
+const Users = connection.define('users', {
         "email": {
             "type": DataTypes.STRING,
             "allowNull": false,

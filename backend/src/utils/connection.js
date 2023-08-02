@@ -1,6 +1,6 @@
 const {Sequelize} = require("sequelize")
 
-const pool = new Sequelize(
+const connecton = new Sequelize(
     process.env.DB_NAME,
     process.env.DB_USER,
     process.env.DB_PASSWORD, {
@@ -9,4 +9,4 @@ const pool = new Sequelize(
     }
 )
 
-module.exports = pool
+module.exports = connecton
