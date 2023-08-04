@@ -15,6 +15,7 @@ const signUp = async (req, res)=>{
                         credentials["password"] = hashedPassword
 
                         await Users.create(credentials).then(newUser=>{
+                            const userData = newUser["dataValues"]
                             const token = jwt.sign(
                                 {"email": newUser["dataValues"]["email"]},
                                 jwtSecret,
@@ -26,6 +27,7 @@ const signUp = async (req, res)=>{
                                 "maxAge": 3600
                             })
 
+                            delete userData.password
                             res.status(200).json({
                                 "success": true,
                                 "message": "account created",

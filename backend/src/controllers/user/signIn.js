@@ -13,6 +13,7 @@ const signIn = async (req, res, next)=>{
                 bcrypt.compare(credentials["password"], user["dataValues"]["password"]).then(match => {
 
                     if (match){
+                        const userData = user["dataValues"]
                         const token = jwt.sign(
                             {"email": user["dataValues"]["email"]},
                             jwtSecret,
@@ -23,11 +24,12 @@ const signIn = async (req, res, next)=>{
                             "httpOnly": true,
                             "maxAge": 3600
                         })
-
+                        
+                        delete userData.password
                         res.status(200).json({
                             "success": true,
                             "message": "signIn successful",
-                            "user": user["dataValues"]
+                            "user": userData
                         })
                     }
                     else{

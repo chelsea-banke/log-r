@@ -53,7 +53,7 @@ const updatePassword = async (req, res)=>{
     }
 }
 
-const updateFields = async(req, res)=>{
+const updateUser = async(req, res)=>{
     const fields = req.body
     const email = res.locals.authEmail
 
@@ -77,7 +77,7 @@ const updateFields = async(req, res)=>{
                 })
             })
         }).catch(error=>{
-            res.status(401).json({
+            res.status(400).json({
                 "success": false,
                 "message": "error fetching user",
                 "error": error.message
@@ -92,4 +92,46 @@ const updateFields = async(req, res)=>{
     }
 }
 
-module.exports = { updatePassword, updateFields }
+const deleteUser = async (req, res)=>{
+    const email = res.locals.authEmail
+    await Users.findByPk(email).then(user=>{
+        Users.destroy({"where": {"email": email}}).then(results=>{
+            res.status(200).json({
+                "successs": true,
+                "message": `user with email ${email} successfully deleted`
+            })
+        }).catch(error=>{
+            res.send(401).json({
+                "success": false,
+                "message": "error deleting user",
+                "error": error.message
+            })
+        })
+    }).catch(error=>{
+        res.status(400).json({
+            "success": false,
+            "message": "error fetching user",
+            "error": error.message
+        })
+    })
+}
+
+const getUser = async (req, res)=>{
+    const email = res.locals.authEmail
+    await Users.findByPk(email).then(user=>{
+        const userData = user["dataValues"]
+        delete userData.password
+        res.status(200).json({
+            "success": true,
+            "message": "successfull fetch of user data",
+            "data": userData
+        })
+    }).catch(error=>{
+        res.status(400).json({
+            "success": false,
+            "message": "error fetching user",
+            "error": error.message
+        })
+    })
+}
+module.exports = { updatePassword, updateUser, deleteUser, getUser }
