@@ -9,7 +9,6 @@ const signUp = async (req, res)=>{
 
     if (fieldCheck(credentials)){
         await Users.findByPk(credentials["email"]).then(async user=>{
-            console.log(user);
             if (user==null){
                 bcrypt.genSalt(10).then(salt=>{
                     bcrypt.hash(credentials["password"], salt).then(async hashedPassword=>{

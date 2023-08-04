@@ -7,8 +7,12 @@ const connection = require("./src/utils/connection")
 const server = express()
 
 server.use(express.json())
-express.use(cookieParser)
+server.use(cookieParser())
 server.use("/api/user", userRouter)
+
+server.get("/", (req, res)=>{
+  res.send("hello world !")
+})
 
 server.listen(process.env.SERVER_PORT, async () => {
   console.log(`server is listening on port ${process.env.SERVER_PORT}...`)
