@@ -14,7 +14,7 @@ const signIn = async (req, res, next)=>{
 
                     if (match){
                         const token = jwt.sign(
-                            {"emeil": user["dataValues"]["email"]},
+                            {"email": user["dataValues"]["email"]},
                             jwtSecret,
                             {"expiresIn": 3600}
                         )

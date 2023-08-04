@@ -2,7 +2,6 @@ const jwt = require("jsonwebtoken")
 
 const userAuth = (req, res, next)=>{
     const jwtSecret = process.env.JWT_SECRET
-    console.log(req.cookies)
     const token = req.cookies.jwt
     if (token){
         jwt.verify(token, jwtSecret, (error, decodedToken)=>{
@@ -14,6 +13,7 @@ const userAuth = (req, res, next)=>{
                 }))
             }
             else {
+                res.locals.authEmail = decodedToken["email"]
                 next()
             }
         })
