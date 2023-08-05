@@ -61,7 +61,7 @@ const updateUser = async(req, res)=>{
         await Users.findByPk(email).then(async user=>{
             await Users.update({
                 "first_name": fields["firstName"],
-                "lastName": fields["lastName"]
+                "last_name": fields["lastName"]
             }, {
                 "where": {"email": email}
             }).then(results=>{

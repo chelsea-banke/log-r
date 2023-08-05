@@ -1,10 +1,11 @@
 const jwt = require("jsonwebtoken")
+const Users = require("../models/users")
 
 const userAuth = (req, res, next)=>{
     const jwtSecret = process.env.JWT_SECRET
     const token = req.cookies.jwt
     if (token){
-        jwt.verify(token, jwtSecret, (error, decodedToken)=>{
+        jwt.verify(token, jwtSecret, async (error, decodedToken)=>{
             if(error){
                 return (res.status(401).json({
                     "success": false,
@@ -13,8 +14,19 @@ const userAuth = (req, res, next)=>{
                 }))
             }
             else {
-                res.locals.authEmail = decodedToken["email"]
-                next()
+                await Users.findByPk(decodedToken["email"]).then(user=>{
+                    if(user){
+                        res.locals.authEmail = decodedToken["email"]
+                        next()
+                    }
+                    else{
+                        console.log(user)
+                        return(res.status(400).json({
+                            "success": false,
+                            "message": `user with email ${decodedToken["email"]} not found`
+                        }))
+                    }
+                })
             }
         })
     }
