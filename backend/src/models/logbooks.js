@@ -3,16 +3,11 @@ const { DataTypes } = require("sequelize")
 const Users = require("./users")
 
 const Logbooks = connection.define("logbooks", {
-    "logbook_id": {
-        "type": DataTypes.DECIMAL,
-        "primaryKey": true,
-        "allowNull": false
-    },
 	"intern_name": {
         "type": DataTypes.STRING,
         "allowNull": false
     },
-	'matricule': {
+	"matricule": {
         "type": DataTypes.STRING,
         "allowNull": false
     },
@@ -43,9 +38,23 @@ const Logbooks = connection.define("logbooks", {
 	"phone": {
         "type": DataTypes.STRING,
         "allowNull": false
+    },
+    "title": {
+        "primaryKey": true,
+        "type": DataTypes.STRING,
+        "allowNull": false
+    },
+    "user_id": {
+        "primaryKey": true,
+        "type": DataTypes.STRING,
+        "references": {
+            "model": "Users",
+            "key": "email"
+        },
+        "allowNull": false
     }
+}, {
+    timestamps: false
 })
-
-Logbooks.belongsTo(Users)
 
 module.exports = Logbooks
