@@ -48,12 +48,12 @@ const createLogbook = async (req, res)=>{
     }
 }
 
-const getLogbook = (req, res)=>{
+const getLogbook = async (req, res)=>{
     const email = res.locals.authEmail
     const title = req.params["title"].slice(1)
     console.log(title)
     if(title){
-        Logbooks.findAll({"where": {
+        await Logbooks.findAll({"where": {
             "user_id": email,
             "title": title
         }}).then(logbooks=>{
@@ -87,4 +87,48 @@ const getLogbook = (req, res)=>{
     }
 }
 
-module.exports = { createLogbook, getLogbook }
+const updateLogbook = async (req, res)=>{
+    const email = res.locals.authEmail
+    const title = req.params["title"].slice(1)
+    const logbookData = req.body
+    if(fieldCheck(logbookData)){
+        await Logbooks.findAll({"where": {
+            "user_id": email,
+            "title": title
+        }}).then(async logbooks=>{
+            console.log(logbooks[0])
+            if(logbooks[0]){
+                await Logbooks.update(logbookData, {"where": {
+                    "user_id": email,
+                    "title": title
+                }}).then(results=>{
+                    res.status(200).json({
+                        "success": true,
+                        "message": "logbook successfully updated",
+                        "logbook": logbookData
+                    })
+                }).catch(error=>{
+                    res.status(401).json({
+                        "success": false,
+                        "message": "error updating logbook",
+                        "error": error.message
+                    })
+                })
+            }
+            else{
+                res.status(400).json({
+                    "success": false,
+                    "message": `user ${email} has no logbook titled ${title}`,
+                })
+            }
+        })
+    }
+    else {
+        res.status(400).json({
+            "success": false,
+            "message": "Bad request: invalid fields detected"
+        })
+    }
+}
+
+module.exports = { createLogbook, getLogbook, updateLogbook }
