@@ -1,5 +1,5 @@
 const { createLogbook, getLogbook, updateLogbook, deleteLogbook } = require("../controllers/logbookController")
-const userAuth = require("../middlewares/auth")
+const { userAuth } = require("../middlewares/auth")
 
 const router = require("express").Router()
 

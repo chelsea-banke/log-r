@@ -1,5 +1,6 @@
 const jwt = require("jsonwebtoken")
 const Users = require("../models/users")
+const Logbooks = require("../models/logbooks")
 
 const userAuth = (req, res, next)=>{
     const jwtSecret = process.env.JWT_SECRET
@@ -38,4 +39,38 @@ const userAuth = (req, res, next)=>{
     }
 }
 
-module.exports = userAuth
+const logbookAuth = async (req, res, next)=>{
+    const email = res.locals.authEmail
+    const title = req.params["title"]
+    if(title){
+        await Logbooks.findAll({"where": {
+            "user_id": email,
+            "title": title
+        }}).then(logbooks=>{
+            if(logbooks[0]){
+                next()
+            }
+            else{
+                return(res.status(400).json({
+                    "success": false,
+                    "message": `user with email ${email} has no logbooks titled ${title}`
+                }))
+            }
+        }).catch(error=>{
+            return(res.status(401).json({
+                "success": false,
+                "message": "error fetching logbook",
+                "error": error.message
+            }))
+        })
+    }
+    else{
+        return(res.status(400).json({
+            "success": false,
+            "message": `${title} value passed as logbook parameter`
+        }))
+    }
+}
+
+
+module.exports = { userAuth, logbookAuth}

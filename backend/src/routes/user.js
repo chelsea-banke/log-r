@@ -1,7 +1,7 @@
 const { updatePassword, updateUser, deleteUser, getUser } = require("../controllers/user/userController")
 const signUp = require("../controllers/user/signUp")
 const signIn = require("../controllers/user/signIn")
-const userAuth = require("../middlewares/auth")
+const { userAuth } = require("../middlewares/auth")
 
 const router = require("express").Router()
 
