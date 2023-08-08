@@ -23,7 +23,7 @@ const createLogbook = async (req, res)=>{
                 await Logbooks.create(logbookData).then(results=>{
                     res.status(200).json({
                         "success": true,
-                        "message": "successfull fetch of logbook",
+                        "message": "successfull creation of logbook",
                         "logbook": results
                     })
                 }).catch(error=>{

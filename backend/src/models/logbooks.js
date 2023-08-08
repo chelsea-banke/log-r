@@ -48,13 +48,13 @@ const Logbooks = connection.define("logbooks", {
         "primaryKey": true,
         "type": DataTypes.STRING,
         "references": {
-            "model": "Users",
+            "model": Users,
             "key": "email"
         },
         "allowNull": false
     }
 }, {
-    timestamps: false
+    "timestamps": false
 })
 
 module.exports = Logbooks
