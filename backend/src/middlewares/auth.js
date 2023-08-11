@@ -49,6 +49,7 @@ const logbookAuth = async (req, res, next)=>{
             "title": title
         }}).then(logbooks=>{
             if(logbooks[0]){
+                res.locals.authTitle = title
                 next()
             }
             else{
