@@ -41,7 +41,8 @@ const userAuth = (req, res, next)=>{
 
 const logbookAuth = async (req, res, next)=>{
     const email = res.locals.authEmail
-    const title = req.params["title"]
+    console.log(req.params)
+    const title = req.params["title"].slice(1)
     if(title){
         await Logbooks.findAll({"where": {
             "user_id": email,

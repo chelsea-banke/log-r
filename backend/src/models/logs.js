@@ -21,6 +21,7 @@ const Logs = connection.define("logs", {
             "model": Logbooks,
             "key": "title"
         },
+        "type": DataTypes.STRING,
         "primaryKey": true,
         "allowNull": false
     },
@@ -29,6 +30,7 @@ const Logs = connection.define("logs", {
             "model": Logbooks,
             "key": "user_id",
         },
+        "type": DataTypes.STRING,
         "primaryKey": true,
         "allowNull": false
     }
