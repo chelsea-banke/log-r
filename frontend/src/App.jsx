@@ -1,5 +1,6 @@
 import { useState } from 'react'
-import { Route, Routes } from 'react-router-dom'
+import { Routes, Route, Navigate } from 'react-router-dom'
+import auth from "../src/services/auth"
 
 import Home from './components/external/home/home'
 import Login from './components/external/login/login'
@@ -12,6 +13,7 @@ import Book from './components/internal/book/book'
 import CreateNewLog from './components/internal/create-new-log/create-new-log'
 import Settings from './components/internal/settings/settings'
 import Contact from './components/internal/contact/contact'
+import Redirect from './components/shared/redirect'
 
 import './App.css'
 
@@ -24,7 +26,8 @@ function App() {
         <Route exact path="/" element={<Home/>} />
         <Route path='/login' element={<Login/>} />
         <Route path='/signup' element={<Signup/>} />
-        <Route path='/dashboard' element={<Dashboard/>} />
+
+        <Route path='/dashboard' element={auth.isAuthenticated() ? <Dashboard/> : <Redirect/> } />
         <Route path='/logbooks' element={<Logbooks/>} />
         <Route path='/create-new-logbook' element={<CreateNewLogbook/>} />
         <Route path='/guide' element={<Guide/>} />
