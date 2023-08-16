@@ -1,2 +1,2 @@
 # log-r
-Logbook Generator
+A web application that lets you create and manage your internship logbooks
