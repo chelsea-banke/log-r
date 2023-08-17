@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
+import { useUser } from "../../../context/userContext";
 import { Link } from "react-router-dom";
 import './nav.css'
 
 function Nav({dashboard=false, logbooks=false, guide=false, settings=false, contact=false, mask=false}){
+    const user = useUser()
     const [display, setNavDisplay] = useState(()=>{if (!mask){return ('slide-out')} else {return ('default-nav')}})
     const [maskDisplay, setMaskDisplay] = useState(()=>{if (!mask){return ('mask-out')} else {return ('default-mask')}})
     return(
@@ -30,8 +32,8 @@ function Nav({dashboard=false, logbooks=false, guide=false, settings=false, cont
                     <Link className="flex m-auto w-fit" to='user-profile'>
                         <div className="mr-3 mt-1"><img src="avatar.svg"/></div>
                         <div>
-                            <h2>Baki Hanna</h2>
-                            <p className="text-sm text-gray-500">Bakiii@gmail.com</p>
+                            <h2>{user["first_name"]} {user["last_name"]}</h2>
+                            <p className="text-sm text-gray-500">{user["email"]}</p>
                         </div>
                     </Link>
                     <button className="relative w-9/12 p-2 border border-gray-600 rounded-md m-auto mt-5 block text-left">Logout<img src="logout.svg" className="absolute right-3 top-2"/></button>
@@ -45,8 +47,8 @@ function Nav({dashboard=false, logbooks=false, guide=false, settings=false, cont
                 <div className="flex w-fit">
                     <div className="mr-3 mt-1"><img src="avatar.svg"/></div>
                     <div>
-                        <h2>Baki Hanna</h2>
-                        <p className="text-sm text-gray-500">Bakiii@gmail.com</p>
+                        <h2>{user["first_name"]} {user["last_name"]}</h2>
+                        <p className="text-sm text-gray-500">{user["email"]}</p>
                     </div>
                 </div>
             </div>

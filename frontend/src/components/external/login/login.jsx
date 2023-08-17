@@ -1,12 +1,30 @@
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import { useUpdateUser, useUser } from '../../../context/userContext'
+import auth from "../../../services/auth"
 import InputField from '../../shared/input/input'
 import Google from './assets/google.svg'
 import './login.css'
 
 function Login(){
+    const updateUer = useUpdateUser()
+    const navigate = useNavigate()
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
+
+    const formSubmit = async (e)=>{
+        console.log("submit")
+        e.preventDefault()
+        await auth.signIn(email, password).then(user=>{
+            if(user){
+                updateUer(user)
+                navigate("/dashboard")
+            }
+            else{
+                e.target.reset()
+            }
+        })
+    }
 
     return(
         <div className='login h-screen flex justify-between max-[1000px]:block'>
@@ -23,17 +41,15 @@ function Login(){
                     <h2 className='hidden text-3xl max-[1000px]:block'>Login</h2>
                     <p className='mt-1'>Enter the info you used to sign up</p>
                 </div>
-                <form className='w-full'>
+                <form className='w-full' onSubmit={async (e)=>{formSubmit(e)}}>
                     <InputField label="Email Adress" styles="w-3/4 m-4" type="email" getInput={setEmail} />
                     <InputField label="Password" styles="w-3/4 m-4" type="password" getInput={setPassword}/>
                     <div className='flex justify-between w-3/4 m-4 opt'>
                         <div>Remember me</div>
                         <div className='text-violet-500'><Link to="/recovery"/>Forgot password ?</div>
                     </div>
-                    <Link to="/dashboard">
-                        <button type='button' className="block w-3/4 py-3 px-6 mt-10 border-2 text-white bg-violet-500 border-violet-500 font-semibold rounded-md m-4">
+                    <button type='submit' className="block w-3/4 py-3 px-6 mt-10 border-2 text-white bg-violet-500 border-violet-500 font-semibold rounded-md m-4">
                     Login</button>
-                    </Link>
                 </form>
                 <button className="block w-3/4 py-3 px-6 border-2 text-gray-900 bg-white border-gray-300 rounded-md m-4 max-[1000px]:mx-auto">
                 <img className='inline' src={Google} /> Login with Google</button>

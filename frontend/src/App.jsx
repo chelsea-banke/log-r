@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Routes, Route, Navigate } from 'react-router-dom'
-import auth from "../src/services/auth"
+import { UserProvider, useUser } from './context/userContext'
 
 import Home from './components/external/home/home'
 import Login from './components/external/login/login'
@@ -18,24 +18,27 @@ import Redirect from './components/shared/redirect'
 import './App.css'
 
 function App() {
+  const user = useUser()
   const [count, setCount] = useState(0)
 
   return (
     <div className="font-nunito">
-      <Routes>
-        <Route exact path="/" element={<Home/>} />
-        <Route path='/login' element={<Login/>} />
-        <Route path='/signup' element={<Signup/>} />
+      <UserProvider value={undefined}>
+        <Routes>
+          <Route exact path="/" element={<Home/>} />
+          <Route path='/login' element={<Login/>} />
+          <Route path='/signup' element={<Signup/>} />
 
-        <Route path='/dashboard' element={auth.isAuthenticated() ? <Dashboard/> : <Redirect/> } />
-        <Route path='/logbooks' element={<Logbooks/>} />
-        <Route path='/create-new-logbook' element={<CreateNewLogbook/>} />
-        <Route path='/guide' element={<Guide/>} />
-        <Route path='/book' element={<Book/>} />
-        <Route path='/create-new-log' element={<CreateNewLog/>} />
-        <Route path='/settings' element={<Settings/>} />
-        <Route path='/contact' element={<Contact/>} />
-      </Routes>
+          <Route path='/dashboard' element={<Dashboard/>} />
+          <Route path='/logbooks' element={<Logbooks/>} />
+          <Route path='/create-new-logbook' element={<CreateNewLogbook/>} />
+          <Route path='/guide' element={<Guide/>} />
+          <Route path='/book' element={<Book/>} />
+          <Route path='/create-new-log' element={<CreateNewLog/>} />
+          <Route path='/settings' element={<Settings/>} />
+          <Route path='/contact' element={<Contact/>} />
+        </Routes>
+      </UserProvider>
     </div>
   )
 }

@@ -1,11 +1,13 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import { useUpdateUser } from '../../../context/userContext'
 import auth from "../../../services/auth"
 import InputField from '../../shared/input/input'
 import Google from './assets/google.svg'
 import './signup.css'
 
 function Signup(){
+    const updateUer = useUpdateUser()
     const navigate = useNavigate()
     const [firstName, setFirstName] = useState("")
     const [lastName, setLastName] = useState("")
@@ -14,8 +16,11 @@ function Signup(){
 
     const formSubmit = async (e)=>{
         e.preventDefault()
-        await auth.signUp(firstName, lastName, email, password).then(res=>{
-            navigate("/dashboard")
+        await auth.signUp(firstName, lastName, email, password).then(user=>{
+            if(user){
+                updateUer(user)
+                navigate("/dashboard")
+            }
         })
     }
 
