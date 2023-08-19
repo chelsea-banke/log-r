@@ -28,10 +28,11 @@ const signUp = async (req, res)=>{
                             })
 
                             delete userData.password
+                            userData["logbooks"]=[]
                             res.status(200).json({
                                 "success": true,
                                 "message": "account created",
-                                "user": newUser["dataValues"]
+                                "user": userData
                             })
                             
                         }).catch(error=>{
