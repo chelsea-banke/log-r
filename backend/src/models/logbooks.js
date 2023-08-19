@@ -39,6 +39,10 @@ const Logbooks = connection.define("logbooks", {
         "type": DataTypes.STRING,
         "allowNull": false
     },
+    "status": {
+        "type": DataTypes.STRING,
+        "allowNull": false
+    },
     "title": {
         "primaryKey": true,
         "type": DataTypes.STRING,

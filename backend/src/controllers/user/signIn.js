@@ -29,7 +29,10 @@ const signIn = async (req, res, next)=>{
                         await Logbooks.findAll({"where": {"user_id": userData["email"]}}).then(logbooks=>{
                             userData["logbooks"] = []
                             logbooks.forEach(logbook=>{
-                                userData["logbooks"].push(logbook["title"])
+                                userData["logbooks"].push({
+                                    "title": logbook["title"],
+                                    "status": logbook["status"]
+                                })
                             })
 
                             delete userData.password
