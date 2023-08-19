@@ -29,7 +29,7 @@ This is a web application that lets you create and manage your internship logboo
 Clone the project
 
 ```bash
-  git clone https://link-to-project
+  git clone https://github.com/chelsea-banke/log-r.git
 ```
 |
 ### client side
