@@ -41,7 +41,9 @@ const Logbooks = connection.define("logbooks", {
     },
     "status": {
         "type": DataTypes.STRING,
-        "allowNull": false
+    },
+    "company_email": {
+        "type": DataTypes.STRING,
     },
     "title": {
         "primaryKey": true,

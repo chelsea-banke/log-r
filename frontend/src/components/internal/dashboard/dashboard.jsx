@@ -47,7 +47,7 @@ function Dashboard(){
             </div>
         )
     }
-    return (<Redirect/>)
+    return (<Redirect pageName={"Login"} url={"/login"} message={"Unauthotised aceess !!!"}/>)
 }
 
 export default Dashboard

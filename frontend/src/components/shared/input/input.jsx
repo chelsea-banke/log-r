@@ -2,7 +2,7 @@ import { useState } from "react";
 import './input.css'
 
 
-function InputField({id, label, placehold, type, styles, required=true, getInput}){
+function InputField({id, label, placehold, type, styles, required=false, getInput}){
     return(
         <div className={styles}>
             <label htmlFor={id}>{label}</label><br/>

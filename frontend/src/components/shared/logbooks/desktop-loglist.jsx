@@ -9,7 +9,7 @@ function DesktopLoglist({minWidth}){
         if (list.length==0){
             return([0, 0, 0, 0, 0].map((i)=>{
                     return <div className="w-full">
-                        <button className="bg-violet-100 w-full text-left text-violet-900 py-2 px-3 my-1 rounded-md hover:bg-violet-200"></button>
+                        <button className="bg-violet-100 w-full text-left text-violet-900 py-2 px-3 my-1 rounded-md hover:bg-violet-200 animate-pulse"></button>
                     </div>
                 })
             )

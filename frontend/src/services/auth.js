@@ -8,7 +8,8 @@ const signUp = async (firstName, lastName, email, password)=>{
         "last_name": lastName,
         "email": email,
         "password": password
-    }).then(response=>{
+    },
+    {withCredentials: true}).then(response=>{
         if(response.data.success){
             user = response.data.user
         }
@@ -23,7 +24,8 @@ const signIn = async (email, password)=>{
     await axios.post('http://localhost:3000/api/user/sign-in', {
         "email": email,
         "password": password
-    }).then(response=>{
+    },
+    {withCredentials: true}).then(response=>{
         if(response.data.success){
             user = response.data.user
         }
