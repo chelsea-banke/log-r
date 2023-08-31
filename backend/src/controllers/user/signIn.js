@@ -23,7 +23,7 @@ const signIn = async (req, res, next)=>{
                         
                         res.cookie("jwt", token, {
                             "httpOnly": true,
-                            "maxAge": 3600
+                            "maxAge": 3600000
                         })
                         
                         await Logbooks.findAll({"where": {"user_id": userData["email"]}}).then(logbooks=>{
