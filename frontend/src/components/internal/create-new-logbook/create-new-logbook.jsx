@@ -2,7 +2,7 @@ import axios from "axios"
 import { Link, useNavigate } from "react-router-dom"
 import { useState } from "react"
 import { useUpdateLogbook } from "../../../context/logbookContext"
-import { useUser } from "../../../context/userContext"
+import { useUser, useUpdateUser } from "../../../context/userContext"
 import Redirect from "../../shared/redirect"
 import Nav from "../../shared/nav/nav"
 import InputField from "../../shared/input/input"
@@ -11,6 +11,7 @@ import "./create-new-logbook.css"
 function CreateNewLogbook(){
     const updateLogbook = useUpdateLogbook()
     const user = useUser()
+    const updateUser = useUpdateUser()
     const navigate = useNavigate() 
 
     const [interName, setInterName] = useState("")
@@ -43,6 +44,8 @@ function CreateNewLogbook(){
         },
         {withCredentials: true}).then(respond=>{
             if (respond.data.success){
+                user["logbooks"].push(respond.data.logbook["title"])
+                updateUser(user)
                 updateLogbook(respond.data.logbook)
                 navigate("/logbook")
             }

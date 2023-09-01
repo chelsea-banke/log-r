@@ -1,11 +1,30 @@
+import { useNavigate } from "react-router-dom"
+import { useUpdateLogbook } from "../../../context/logbookContext"
 import { useState } from "react"
+import axios from "axios"
 import { useUser } from "../../../context/userContext"
 
 function DesktopLoglist({minWidth}){
     const user = useUser()
+    const updateLogbook = useUpdateLogbook()
+    const navigate = useNavigate()
+
     const [view, setView] = useState('all')
 
-    function listHandler(list){
+    const getLogbook = async (title)=>{
+        console.log(title)
+        await axios.get(`http://localhost:3000/api/logbook/:${title}`, 
+        {withCredentials: true}).then(respond=>{
+            if (respond.data.success){
+                updateLogbook(respond.data.logbook)
+                navigate("/logbook")
+            }
+        }).catch((error)=>{
+            console.log(error.response ? error.response.data : error)
+        })
+    }
+
+    const listHandler = (list)=>{
         if (list.length==0){
             return([0, 0, 0, 0, 0].map((i)=>{
                     return <div className="w-full">
@@ -17,7 +36,7 @@ function DesktopLoglist({minWidth}){
         else {
             return(list.map(item=>{
                     return <div className="w-full">
-                        <button className="bg-violet-100 w-full text-left text-violet-900 py-2 px-3 my-1 rounded-md hover:bg-violet-200">{item["title"]}</button>
+                        <button onClick={()=>getLogbook(item["title"])} className="bg-violet-100 w-full text-left text-violet-900 py-2 px-3 my-1 rounded-md hover:bg-violet-200">{item["title"]}</button>
                     </div>
                 })
             )
