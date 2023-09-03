@@ -7,6 +7,10 @@
     max-height: 100vh;
     overflow-y: scroll;
 }
+header{
+    top: -60px !important;
+    z-index: 1;
+}
 .hold{
     top: -5px;
 }
@@ -19,7 +23,17 @@
 .top img{
     width: 30px;
 }
+textarea{
+    line-height: 3ch !important;
+    background-image: linear-gradient(transparent, transparent calc(3ch - 1px), rgb(158, 158, 158) 0px);
+    background-size: 50% 3ch;
+    overflow-y: visible;
+}
 @media screen and (max-width: 850px) {
+    header{
+        top: -69px !important;
+        z-index: 1;
+    }
     .book .book{
         /* max-height: none; */
         overflow-y: auto;
@@ -27,7 +41,7 @@
 }
 @media screen and (max-width: 600px) {
     .log{
-        width: 90%;
+        width: 100%;
     }
     .top{
         bottom: 40px;
