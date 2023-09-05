@@ -12,14 +12,14 @@ function CreateNewLogbook(){
     const updateLogbook = useUpdateLogbook()
     const user = useUser()
     const updateUser = useUpdateUser()
-    const navigate = useNavigate() 
+    const navigate = useNavigate()
 
     const [interName, setInterName] = useState("")
     const [matricule, setMatricule] = useState("")
     const [department, setDepartment] = useState("")
     const [level, setLevel] = useState("")
     const [startDate, setStartDate] = useState("")
-    const [stopDate, setStopDate] = useState("")
+    const [weeks, setWeeks] = useState("")
     const [companyName, setCompanName] = useState("")
     const [adress, setAdress] = useState("")
     const [companyContact, setCompanyContact] = useState("")
@@ -28,13 +28,18 @@ function CreateNewLogbook(){
 
     const formSubmit = async (e)=>{
         e.preventDefault()
+        let sd = new Date(startDate)
+        if (sd.getDay() != 1){
+            alert("Date Must Be A Monday !!!")
+            return
+        }
         await axios.post("http://localhost:3000/api/logbook/create-new", {
             "intern_name": interName,
             "matricule": matricule,
             "department": department,
             "level": level,
             "start_date": startDate,
-            "stop_date": stopDate,
+            "weeks": weeks,
             "company_name": companyName,
             "address": adress,
             "phone": companyContact,
@@ -59,7 +64,7 @@ function CreateNewLogbook(){
 
     if(user){
         return(
-            <div className="internal bg-stone-100 h-screen flex max-[850px]:block">
+            <div className="create-new-logbook internal bg-stone-100 h-screen flex max-[850px]:block">
                 <Nav mask={true}/>
                 <div className="relative w-full m-auto max-[850px]:mt-5">
                     <div className="w-full py-7 mx-10 max-[680px]:mx-5" >
@@ -76,10 +81,9 @@ function CreateNewLogbook(){
                                 <InputField placehold="COME" label="Department" styles="mr-1" getInput={setDepartment} />
                                 <InputField placehold="200" label="Level" styles="ml-1" type="number" getInput={setLevel}/>
                             </div>
-                            <p className=" mt-5">Duration</p>
-                            <div className="flex justify-evenly p-3 border border-violet-700"> 
-                                <InputField label="From" styles="w-5/12" type="date" getInput={setStartDate}/>
-                                <InputField label="To" styles="w-5/12" type="date" getInput={setStopDate}/>
+                            <div className="flex mt-10 justify-evenly p-3 border border-violet-700"> 
+                                <InputField label="Start" styles="w-5/12" type="date" getInput={setStartDate}/>
+                                <InputField label="Duration (weeks)" styles="w-5/12" type="number" placehold={"001"} getInput={setWeeks}/>
                             </div>
                         </div>
                         <div className="shadow-md w-5/12 p-5 rounded-md bg-white m-auto relative max-[680px]:w-11/12 max-[680px]:ml-0 max-[680px]:mt-14">
@@ -90,7 +94,7 @@ function CreateNewLogbook(){
                             <InputField placehold="xxxinc@gmail.com" label="Email" styles="mt-5" getInput={setCompanyEmail}/>
                             <button type="submit" className="block w-full py-2 rounded-md bg-violet-600 text-white mt-8 font-semibold">Create Logbook</button>
                             <Link to="/dashboard">
-                                <button type="button" className="mb-10 block w-full py-2 rounded-md bg-stone-100 text-red-500 border border-red-500 font-semibold mt-5">Cancel</button>
+                                <button type="button" className="mb-0 block w-full py-2 rounded-md bg-stone-100 text-red-500 border border-red-500 font-semibold mt-5">Cancel</button>
                             </Link>
                         </div>
                     </form>
