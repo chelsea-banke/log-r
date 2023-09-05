@@ -39,7 +39,7 @@ function Dashboard(){
                         <section className="mt-14 max-[750px]:w-full">
                             <Stats/>
                             <Link to="/create-new-logbook">
-                                <button className="fixed right-4 bottom-4 text-7xl p-4 bg-violet-500 text-white shadow-2xl px-8 rounded-full max-tablet:text-5xl max-tablet:px-7">+</button>
+                                <button className="fixed right-4 bottom-4 text-7xl p-4 bg-blue-500 text-white shadow-2xl px-8 rounded-full max-tablet:text-5xl max-tablet:px-7">+</button>
                             </Link>
                         </section>
                     </div>
