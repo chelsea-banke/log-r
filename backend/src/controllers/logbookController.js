@@ -1,5 +1,6 @@
 const e = require("express")
 const Logbooks = require("../models/logbooks")
+const Logs = require("../models/logs")
 const fieldCheck = require("../utils/fieldCheck")
 
 const createLogbook = async (req, res)=>{
@@ -20,11 +21,32 @@ const createLogbook = async (req, res)=>{
             }
             else{
                 logbookData["user_id"] = email
-                await Logbooks.create(logbookData).then(results=>{
-                    res.status(200).json({
-                        "success": true,
-                        "message": "successfull creation of logbook",
-                        "logbook": results
+                await Logbooks.create(logbookData).then(async logbook=>{
+                    let date = new Date(logbookData["start_date"])
+                    for(let week = 1; week <= logbookData["weeks"]; week++){
+                        for(let day = 1; day <= 7; day++){
+                            if(day <= 5){
+                                await Logs.create({
+                                    "date": `${date.getDate()}/${date.getMonth()+1}/${date.getFullYear()}`,
+                                    "week": week,
+                                    "activity": '',
+                                    "logbook_id": logbookData["title"],
+                                    "user_logbook_id": email
+                                })
+                            }
+                            date.setDate(date.getDate()+1)
+                        }
+                    }
+                    await Logs.findAll({"where": {
+                        "logbook_id": logbookData["title"],
+                        "user_logbook_id": email
+                    }}).then(logs=>{
+                        res.status(200).json({
+                            "success": true,
+                            "message": "successfull creation of logbook",
+                            "logbook": logbook,
+                            "logs": logs
+                        })
                     })
                 }).catch(error=>{
                     res.status(401).json({

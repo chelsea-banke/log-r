@@ -23,8 +23,8 @@ const Logbooks = connection.define("logbooks", {
         "type": DataTypes.STRING,
         "allowNull": false
     },
-	"stop_date": {
-        "type": DataTypes.STRING,
+	"weeks": {
+        "type": DataTypes.NUMBER,
         "allowNull": false
     },
 	"company_name": {
