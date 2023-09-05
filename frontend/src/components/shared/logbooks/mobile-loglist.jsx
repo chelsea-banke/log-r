@@ -11,7 +11,6 @@ function MobileLoglist({maxWidth="850px"}){
     const [view, setView] = useState('all')
 
     const getLogbook = async (title)=>{
-        console.log(title)
         await axios.get(`http://localhost:3000/api/logbook/:${title}`, 
         {withCredentials: true}).then(respond=>{
             if (respond.data.success){

@@ -24,7 +24,7 @@ nav{
         left: 0px;
         top: 0px;
         background-color: rgba(0, 0, 0, 0.377);
-        z-index: 2 !important;
+        z-index: 4 !important;
     }
     .mask-in{
         animation: mask-in 1s !important;

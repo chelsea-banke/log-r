@@ -11,10 +11,14 @@ function Book(){
     const [_, forceUpdate] = useReducer(x => x+1, 0)
     const user = useUser()
     const logbook = useLogbook()
+    console.log(logbook["logs"])
+
+    let weeksRange = []
+    for(let w=1; w<=logbook["weeks"]; w++){weeksRange.push(w)}
 
     const [logEdit, setLogEdit] = useState(()=>{
         let temp={} 
-        for(let i=1; i<=4; i++){
+        for(let i=1; i<=logbook["weeks"]; i++){
             temp[i] = {
                 "Mon": false, "Tues": false, "Wed": false, "Thurs": false, "Fri": false
             }
@@ -26,7 +30,7 @@ function Book(){
 
     const toogleLogEdit = (week, day, display)=>{
         let tempLogEdit = logEdit
-        console.log(logEdit)
+        // console.log(logEdit)
         tempLogEdit[week][day]=display
         setLogEdit(tempLogEdit)
         forceUpdate()
@@ -65,7 +69,7 @@ function Book(){
                             </div>
                         </header>
                         <div className='px-10 max-[600px]:px-5'>
-                            {[1, 2 ,3 ,4].map((week)=>{
+                            {weeksRange.map((week)=>{
                                 return(
                                     <div className='mb-10 ' key={week}>
                                         <div className='sticky hold'>
@@ -77,35 +81,34 @@ function Book(){
                                             </div>
                                         </div>
                                         <div className='flex justify-between flex-wrap mt-2'>
-                                            {days.map((day)=>{
+                                            {logbook["logs"].filter(log=>{return(log["week"]==week)}).map((log)=>{
+                                                const date = new Date(log["date"])
+                                                const day = days[date.getDay()-1]
                                                 return(
                                                     <>
                                                         <div className={`log p-4 pb-2 rounded-md bg-white mb-10 border ${logEdit[week][day] ? 'hidden' : 'block'}`}>
                                                             <div className='w-full text-gray-400 mb-2'>
-                                                                <span className='border-b border-violet-600'>12/12/2030 </span>
+                                                                <span className='border-b border-violet-600'>{`${date.getDate()}/${date.getMonth()+1}/${date.getFullYear()}`} </span>
                                                                 <span className='text-violet-600 font-medium'>({day})</span>
                                                             </div>
-                                                            <div>
-                                                                Lorem, ipsum dolor sit amet consectetur 
-                                                                adipisicing elit. Corporis, libero voluptatibus! 
-                                                                Facilis voluptatem, explicabo quod aliquid 
-                                                                beataemolestias. Fuga vel magni porro molestiae 
-                                                                cum pariatur autem! Ipsam magni neque quod?
-                                                            </div>
-                                                            <div className='w-full flex justify-between'>
-                                                                <div></div>
-                                                                <button onClick={()=>toogleLogEdit(week, day, true)} className='bottom-1 block bg-violet-500 text-white px-4 py-1 rounded-md'>Edit</button>
+                                                            <div className='log-content'>{log["activity"]}</div>
+                                                            <div className='w-full flex justify-between relative'>
+                                                                <div className=''></div>
+                                                                <button onClick={()=>toogleLogEdit(week, day, true)} className='block bg-violet-500 text-white px-4 py-1 rounded-md'>Edit</button>
                                                             </div>
                                                         </div>
                                                         <div className={`log p-4 pb-2 rounded-md bg-white mb-10 border border-green-300 ${logEdit[week][day] ? 'block' : 'hidden'}`}>
                                                             <div className='w-full text-gray-400 mb-2'>
-                                                                <span className='border-b border-green-500'>12/12/2030 </span>
+                                                                <span className='border-b border-green-500'>{`${date.getDate()}/${date.getMonth()+1}/${date.getFullYear()}`} </span>
                                                                 <span className='text-green-500 font-medium'>({day})</span>
                                                             </div>
                                                             <textarea rows={"3"} className='w-full px-3 focus:outline-none'></textarea>
                                                             <div className='w-full flex justify-between mt-2'>
                                                                 <div></div>
-                                                                <button onClick={()=>toogleLogEdit(week, day, false)} className='bottom-1 block bg-green-500 text-white px-4 py-1 rounded-md'>save</button>
+                                                                <div className='flex'>
+                                                                    <button onClick={()=>toogleLogEdit(week, day, false)} className='bottom-1 block bg-green-500 text-white px-4 py-1 rounded-md mr-1'>save</button>
+                                                                    <button onClick={()=>toogleLogEdit(week, day, false)} className='bottom-1 block bg-red-500 text-white px-4 py-1 rounded-md'>cancel</button>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </>

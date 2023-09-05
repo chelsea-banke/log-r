@@ -27,7 +27,7 @@ const createLogbook = async (req, res)=>{
                         for(let day = 1; day <= 7; day++){
                             if(day <= 5){
                                 await Logs.create({
-                                    "date": `${date.getDate()}/${date.getMonth()+1}/${date.getFullYear()}`,
+                                    "date": date.toLocaleDateString(),
                                     "week": week,
                                     "activity": '',
                                     "logbook_id": logbookData["title"],
@@ -41,11 +41,11 @@ const createLogbook = async (req, res)=>{
                         "logbook_id": logbookData["title"],
                         "user_logbook_id": email
                     }}).then(logs=>{
+                        logbook["logs"] = logs.map(log=>{return(log["dataValues"])})
                         res.status(200).json({
                             "success": true,
                             "message": "successfull creation of logbook",
-                            "logbook": logbook,
-                            "logs": logs
+                            "logbook": logbook
                         })
                     })
                 }).catch(error=>{
@@ -74,13 +74,19 @@ const getLogbook = async (req, res)=>{
         await Logbooks.findAll({"where": {
             "user_id": email,
             "title": title
-        }}).then(logbooks=>{
-            const logbook = logbooks[0]
+        }}).then(async logbooks=>{
+            const logbook = logbooks[0]["dataValues"]
             if(logbook){
-                res.status(200).json({
-                    "success": true,
-                    "message": "logbook fetch successfull",
-                    "logbook": logbook
+                await Logs.findAll({"where": {
+                    "logbook_id": logbook["title"],
+                    "user_logbook_id": email
+                }}).then(logs=>{
+                    logbook["logs"] = logs.map(log=>{return(log["dataValues"])})
+                    res.status(200).json({
+                        "success": true,
+                        "message": "logbook fetch successfull",
+                        "logbook": logbook
+                    })
                 })
             }
             else{
