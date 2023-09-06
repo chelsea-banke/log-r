@@ -1,7 +1,8 @@
 import { useUser } from '../../../context/userContext'
-import { useLogbook } from '../../../context/logbookContext'
+import { useLogbook, useUpdateLogbook } from '../../../context/logbookContext'
 import Redirect from '../../shared/redirect'
 import { Link } from 'react-router-dom'
+import axios from "axios"
 import Nav from '../../shared/nav/nav'
 import Building from '../../shared/building/building'
 import './book.css'
@@ -11,11 +12,14 @@ function Book(){
     const [_, forceUpdate] = useReducer(x => x+1, 0)
     const user = useUser()
     const logbook = useLogbook()
-    console.log(logbook["logs"])
+    const updateLogbook = useUpdateLogbook()
+    // console.log(logbook["logs"])
 
     let weeksRange = []
     for(let w=1; w<=logbook["weeks"]; w++){weeksRange.push(w)}
 
+    const [editing, setEditing] = useState(false)
+    const [updateData, setUpdateData] = useState("")
     const [logEdit, setLogEdit] = useState(()=>{
         let temp={} 
         for(let i=1; i<=logbook["weeks"]; i++){
@@ -30,13 +34,13 @@ function Book(){
 
     const toogleLogEdit = (week, day, display)=>{
         let tempLogEdit = logEdit
-        // console.log(logEdit)
+        display ? setEditing(true) : setEditing(false)
         tempLogEdit[week][day]=display
         setLogEdit(tempLogEdit)
         forceUpdate()
     }
 
-    function scrollToTop(id) {
+    const scrollToTop = (id)=>{
         const element = document.getElementById(id)
         const currentScroll = element.scrollTop;
         if (currentScroll === 0) return;    
@@ -53,6 +57,23 @@ function Book(){
         }
         requestAnimationFrame(animateScroll);
     }
+
+    const updateLog = async (e, log, week, day)=>{
+        e.preventDefault()
+        await axios.put(`http://localhost:3000/api/log/:${log["logbook_id"]}/${log["date"].split("/").join("-")}`, {
+            "activity": updateData
+        },{withCredentials: true}).then(results=>{
+            if(results.data.success){
+                console.log(results.data.logs)
+                logbook["logs"] = results.data["logs"]
+                updateLogbook(logbook)
+                toogleLogEdit(week, day, false)
+            }
+        }).catch((error)=>{
+            console.log(error.response ? error.response.data : error)
+        })
+    }
+
     if (user){
         if(logbook){
             return(
@@ -94,23 +115,23 @@ function Book(){
                                                             <div className='log-content'>{log["activity"]}</div>
                                                             <div className='w-full flex justify-between relative'>
                                                                 <div className=''></div>
-                                                                <button onClick={()=>toogleLogEdit(week, day, true)} className='block bg-violet-500 text-white px-4 py-1 rounded-md'>Edit</button>
+                                                                <button onClick={()=>{!editing ? toogleLogEdit(week, day, true) : console.log('editi')}} className={`block ${editing ? 'bg-violet-300' : 'bg-violet-500'} text-white px-4 py-1 rounded-md`}>Edit</button>
                                                             </div>
                                                         </div>
-                                                        <div className={`log p-4 pb-2 rounded-md bg-white mb-10 border border-green-300 ${logEdit[week][day] ? 'block' : 'hidden'}`}>
+                                                        <form className={`log p-4 pb-2 rounded-md bg-white mb-10 border border-green-300 ${logEdit[week][day] ? 'block' : 'hidden'}`} onSubmit={(e)=>updateLog(e, log, week, day)}>
                                                             <div className='w-full text-gray-400 mb-2'>
                                                                 <span className='border-b border-green-500'>{`${date.getDate()}/${date.getMonth()+1}/${date.getFullYear()}`} </span>
                                                                 <span className='text-green-500 font-medium'>({day})</span>
                                                             </div>
-                                                            <textarea rows={"3"} className='w-full px-3 focus:outline-none'></textarea>
+                                                            <textarea rows={"3"} className='w-full px-3 focus:outline-none' onChange={(e)=>{setUpdateData(e.target.value)}}>{log["activity"]}</textarea>
                                                             <div className='w-full flex justify-between mt-2'>
                                                                 <div></div>
                                                                 <div className='flex'>
-                                                                    <button onClick={()=>toogleLogEdit(week, day, false)} className='bottom-1 block bg-green-500 text-white px-4 py-1 rounded-md mr-1'>save</button>
+                                                                    <button type='submit' className='bottom-1 block bg-green-500 text-white px-4 py-1 rounded-md mr-1'>save</button>
                                                                     <button onClick={()=>toogleLogEdit(week, day, false)} className='bottom-1 block bg-red-500 text-white px-4 py-1 rounded-md'>cancel</button>
                                                                 </div>
                                                             </div>
-                                                        </div>
+                                                        </form>
                                                     </>
                                                 )
                                             })}

@@ -55,20 +55,25 @@ const getLogs = async (req, res)=>{
 
 const updateLog = async (req, res)=>{
     const activity = req.body["activity"]
-    const date = req.params["date"]
+    const date = (req.params["date"]).split("-").join("/")
     const email = res.locals.authEmail
     const title = res.locals.authTitle
 
-    if(activity && date){
-        await Logbooks.update({"activity": activity}, {"where": {
+    if(date){
+        await Logs.update({"activity": activity}, {"where": {
             "date": date,
             "user_logbook_id": email,
             "logbook_id": title
-        }}).then(results=>{
-            res.status(200).json({
-                "success": true,
-                "message": "log successfully updated",
-                "activity": activity
+        }}).then(async results=>{
+            await Logs.findAll({"where": {
+                "logbook_id": title,
+                "user_logbook_id": email
+            }}).then(logs=>{
+                res.status(200).json({
+                    "success": true,
+                    "message": "log successfully updated",
+                    "logs": logs
+                })
             })
         }).catch(error=>{
             res.status(401).json({
