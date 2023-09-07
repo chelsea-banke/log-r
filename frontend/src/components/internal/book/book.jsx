@@ -37,6 +37,7 @@ function Book(){
         display ? setEditing(true) : setEditing(false)
         tempLogEdit[week][day]=display
         setLogEdit(tempLogEdit)
+        // setUpdateData("")
         forceUpdate()
     }
 
@@ -64,7 +65,7 @@ function Book(){
             "activity": updateData
         },{withCredentials: true}).then(results=>{
             if(results.data.success){
-                console.log(results.data.logs)
+                // console.log(results.data.logs)
                 logbook["logs"] = results.data["logs"]
                 updateLogbook(logbook)
                 toogleLogEdit(week, day, false)
@@ -80,7 +81,7 @@ function Book(){
                 <div className="book internal bg-stone-100 h-screen flex max-[850px]:block">
                     <Nav dashboard={true} />
                     <div className="book relative w-full max-[850px]:pt-20" id='window'>
-                        <header className="w-full flex justify-end p-5 mt-2 sticky top-0">
+                        <header className="w-full flex justify-end p-5 mt-2 top-0">
                             <div className='w-fit'>
                                 <h2 className='text-4xl font-semibold'>{logbook["title"]}</h2>
                                 <div className='w-full flex justify-between mt-2'>
@@ -89,12 +90,12 @@ function Book(){
                                 </div>
                             </div>
                         </header>
-                        <div className='px-10 max-[600px]:px-5'>
+                        <div className='px-10 max-[600px]:px-0'>
                             {weeksRange.map((week)=>{
                                 return(
                                     <div className='mb-10 ' key={week}>
                                         <div className='sticky hold'>
-                                            <div className='text-violet-600 bg-stone-100 pt-12 max-[850px]:pt-3'>Week {week}</div>
+                                            <div className='text-violet-600 bg-stone-100 pt-12 max-[850px]:pt-3 max-[600px]:px-4'>Week {week}</div>
                                             <div className='w-full flex justify-end border-t-2 border-violet-400'>
                                                 {/* <Link to='/create-new-log'>
                                                     <button className='text-3xl text-violet-600 px-3 py-1 border-2 border-violet-500 rounded-md bg-stone-100'>+</button>
@@ -115,20 +116,30 @@ function Book(){
                                                             <div className='log-content'>{log["activity"]}</div>
                                                             <div className='w-full flex justify-between relative'>
                                                                 <div className=''></div>
-                                                                <button onClick={()=>{!editing ? toogleLogEdit(week, day, true) : console.log('editi')}} className={`block ${editing ? 'bg-violet-300' : 'bg-violet-500'} text-white px-4 py-1 rounded-md`}>Edit</button>
+                                                                <button onClick={()=>{
+                                                                    if(!editing){
+                                                                        setUpdateData(log["activity"])
+                                                                        toogleLogEdit(week, day, true)
+                                                                    }}}
+                                                                className={`block ${editing ? 'bg-violet-300' : 'bg-violet-500'} text-white px-4 py-1 rounded-md`}>Edit</button>
                                                             </div>
                                                         </div>
-                                                        <form className={`log p-4 pb-2 rounded-md bg-white mb-10 border border-green-300 ${logEdit[week][day] ? 'block' : 'hidden'}`} onSubmit={(e)=>updateLog(e, log, week, day)}>
+                                                        <form id={`form-${week}-${day}`} className={`log p-4 pb-2 rounded-md bg-white mb-10 border border-green-300 ${logEdit[week][day] ? 'block' : 'hidden'}`} onSubmit={(e)=>updateLog(e, log, week, day)}>
                                                             <div className='w-full text-gray-400 mb-2'>
                                                                 <span className='border-b border-green-500'>{`${date.getDate()}/${date.getMonth()+1}/${date.getFullYear()}`} </span>
                                                                 <span className='text-green-500 font-medium'>({day})</span>
                                                             </div>
-                                                            <textarea rows={"3"} className='w-full px-3 focus:outline-none' onChange={(e)=>{setUpdateData(e.target.value)}}>{log["activity"]}</textarea>
+                                                            <textarea id={`${week}-${day}`} rows={"3"} className='w-full focus:outline-none' onChange={(e)=>{console.log(e.target.value); setUpdateData(e.target.value)}}>{log["activity"]}</textarea>
                                                             <div className='w-full flex justify-between mt-2'>
                                                                 <div></div>
                                                                 <div className='flex'>
                                                                     <button type='submit' className='bottom-1 block bg-green-500 text-white px-4 py-1 rounded-md mr-1'>save</button>
-                                                                    <button onClick={()=>toogleLogEdit(week, day, false)} className='bottom-1 block bg-red-500 text-white px-4 py-1 rounded-md'>cancel</button>
+                                                                    <button type='button' onClick={()=>{
+                                                                        document.getElementById(`form-${week}-${day}`).reset()
+                                                                        document.getElementById(`${week}-${day}`).setAttribute("value", log["activity"])
+                                                                        document.getElementById(`${week}-${day}`).innerHTML = log["activity"]
+                                                                        console.log(document.getElementById(`${week}-${day}`))
+                                                                        toogleLogEdit(week, day, false)}} className='bottom-1 block bg-red-500 text-white px-4 py-1 rounded-md'>cancel</button>
                                                                 </div>
                                                             </div>
                                                         </form>
