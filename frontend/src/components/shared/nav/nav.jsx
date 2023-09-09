@@ -1,44 +1,49 @@
 import { useEffect, useState } from "react";
 import { useUser } from "../../../context/userContext";
-import { Link } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import './nav.css'
 
 function Nav({dashboard=false, logbooks=false, guide=false, settings=false, contact=false, mask=false}){
     const user = useUser()
+    const navigate = useNavigate()
     const [display, setNavDisplay] = useState(()=>{if (!mask){return ('slide-out')} else {return ('default-nav')}})
     const [maskDisplay, setMaskDisplay] = useState(()=>{if (!mask){return ('mask-out')} else {return ('default-mask')}})
+
     return(
         <div className="">
-            <nav className={`relative nav bg-white border-r border-green-400 h-full ${display} max-[850px]:fixed`}>
-                <h1 className="text-4xl font-semibold text-violet-500 p-8 border-violet-600">LOG-R</h1>
-                <div className="relative w-full blg-gray-100 tracking-wide">
+            <button onClick={()=>{navigate(-1)}} className="absolute z-50 bg-stone-100 rounded-full p-3 block right-10 top-8 border-4 border-blue-500 max-[850px]:hidden">
+                <img className="" src="back.png"/>
+            </button>
+            <nav className={`relative nav bg-white border-r border-blue-400 h-full ${display} max-[850px]:fixed`}>
+                <h1 className="text-4xl font-semibold text-blue-500 p-8 px-4 border-blue-600">LOG-R</h1>
+                <div className="relative w-full blg-gray-100 transition-all tracking-wide">
                     <Link to="/dashboard">
-                        <div className={`w-9/12 p-2 rounded-md bg-${dashboard ? "purple-200" : "white"} m-auto mb-3 hover:bg-purple-100`}><img src="dashboard.svg" className="inline mb-2 mr-3"/>Dashboard</div>
+                        <div className={`w-11/12 p-2 rounded-md bg-${dashboard ? "blue-200" : "white border border-blue-500"} m-auto mb-3 hover:bg-blue-100 transition-all`}><img src="dashboard.svg" className="inline mb-2 mr-3"/>Dashboard</div>
                     </Link>
-                    <Link to="/logbook">
-                        <div className={`w-9/12 p-2 rounded-md m-auto mb-3 bg-${logbooks ? "purple-200" : "white"} hover:bg-purple-100`}><img src="folder.svg" className="inline mb-1 mr-3"/>Logbooks</div>
-                    </Link>
+                    {/* <Link to="/logbook">
+                        <div className={`w-11/12 p-2 rounded-md m-auto mb-3 bg-${logbooks ? "blue-200" : "white border border-blue-500"} hover:bg-blue-100 transition-all`}><img src="folder.svg" className="inline mb-1 mr-3"/>Logbooks</div>
+                    </Link> */}
                     <Link to="/guide">
-                        <div className={`w-9/12 p-2 rounded-md m-auto mb-3 bg-${guide ? "purple-200" : "white"} hover:bg-purple-100`}><img src="guide.svg" className="inline mb-1 mr-4"/>Guide</div>
+                        <div className={`w-11/12 p-2 rounded-md m-auto mb-3 bg-${guide ? "blue-200" : "white border border-blue-500"} hover:bg-blue-100 transition-all`}><img src="guide.svg" className="inline mb-1 mr-4"/>Guide</div>
                     </Link>
                     <Link to="/settings">
-                        <div className={`w-9/12 p-2 rounded-md m-auto mb-3 bg-${settings ? "purple-200" : "white"} hover:bg-purple-100`}><img src="settings.svg" className="inline mb-1 mr-3"/>Settings</div>
+                        <div className={`w-11/12 p-2 rounded-md m-auto mb-3 bg-${settings ? "blue-200" : "white border border-blue-500"} hover:bg-blue-100 transition-all`}><img src="settings.svg" className="inline mb-1 mr-3"/>Settings</div>
                     </Link>
                     <Link to="/contact">
-                        <div className={`w-9/12 p-2 rounded-md m-auto mb-3 bg-${contact ? "purple-200" : "white"} hover:bg-purple-100`}><img src="contact.svg" className="inline mb-1 mr-2"/>Contact</div>
+                        <div className={`w-11/12 p-2 rounded-md m-auto mb-3 bg-${contact ? "blue-200" : "white border border-blue-500"} hover:bg-blue-100 transition-all`}><img src="contact.svg" className="inline mb-1 mr-2"/>Contact</div>
                     </Link>
                 </div>
-                <div className="w-11/12 absolute bottom-8">
-                    {/* <Link className="flex m-auto w-fit" to='user-profile'>
-                        <div className="mr-3 mt-1"><img src="avatar.svg"/></div>
+                <div className="w-11/12 absolute bottom-8 lo">
+                    <Link className="flex m-auto w-fit max-[850px]:hidden" to='user-profile'>
+                        <div className="mt-1"><img src="avatar.svg"/></div>
                         <div>
                             <h2>{user["first_name"]} {user["last_name"]}</h2>
                             <p className="text-sm text-gray-500">{user["email"]}</p>
                         </div>
-                    </Link> */}
-                    <button className="relative w-9/12 p-2 border border-gray-600 rounded-md m-auto mt-5 block text-left">Logout<img src="logout.svg" className="absolute right-3 top-2"/></button>
+                    </Link>
+                    <button className="relative w-11/12 p-2 border border-gray-600 rounded-md m-auto mt-5 block text-left">Logout<img src="logout.svg" className="absolute right-3 top-2"/></button>
                 </div>
-                <button className="absolute invisible w-fit p-5 border border-stone-100 text-2xl rounded-md top-0 right-0 text-violet-600 max-[850px]:visible" onClick={()=>{setNavDisplay('slide-out'); setMaskDisplay('mask-out')}}>X</button>
+                <button className="absolute invisible w-fit p-5 border border-stone-100 transition-all text-2xl rounded-md top-0 right-0 text-blue-600 max-[850px]:visible" onClick={()=>{setNavDisplay('slide-out'); setMaskDisplay('mask-out')}}>X</button>
                 <div className={`mask ${mask ? 'block': 'hidden'}`}></div>
             </nav>
             <div className={`${maskDisplay} mobile-mask hidden max-[850px]:block`} onClick={()=>{setNavDisplay('slide-out'); setMaskDisplay('mask-out')}}></div>

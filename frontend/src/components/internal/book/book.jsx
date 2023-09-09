@@ -81,8 +81,8 @@ function Book(){
                 <div className="book internal bg-stone-100 h-screen flex max-[850px]:block">
                     <Nav dashboard={true} />
                     <div className="book relative w-full max-[850px]:pt-20" id='window'>
-                        <header className="w-full flex justify-end p-5 mt-2 top-0">
-                            <div className='w-fit'>
+                        <header className="w-full flex justify-start p-5 mt-2 top-0 max-[850px]:justify-end">
+                            <div className='w-fit mx-5 max-[850px]:mx-0'>
                                 <h2 className='text-4xl font-semibold'>{logbook["title"]}</h2>
                                 <div className='w-full flex justify-between mt-2'>
                                     <button className="text-sm text-white py-1 px-4 border bg-green-500 rounded-md">Preview</button>
@@ -121,7 +121,7 @@ function Book(){
                                                                         setUpdateData(log["activity"])
                                                                         toogleLogEdit(week, day, true)
                                                                     }}}
-                                                                className={`block ${editing ? 'bg-violet-300' : 'bg-violet-500'} text-white px-4 py-1 rounded-md`}>Edit</button>
+                                                                className={`block px-4 ${editing ? 'bg-violet-300' : 'bg-violet-500'} text-white py-1 rounded-md transition-all`}>Edit <img src='edit.png' className='edit-icon'/></button>
                                                             </div>
                                                         </div>
                                                         <form id={`form-${week}-${day}`} className={`log p-4 pb-2 rounded-md bg-white mb-10 border border-green-300 ${logEdit[week][day] ? 'block' : 'hidden'}`} onSubmit={(e)=>updateLog(e, log, week, day)}>
@@ -150,7 +150,7 @@ function Book(){
                                     </div>
                                 )
                             })}
-                            <button className='top p-5 bg-violet-500' onClick={()=>scrollToTop('window')}>
+                            <button className='top p-5 bg-violet-500 border-2 border-stone-100' onClick={()=>scrollToTop('window')}>
                                 <img src='top.png'/>
                             </button>
                         </div>

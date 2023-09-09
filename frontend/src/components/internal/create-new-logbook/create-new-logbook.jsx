@@ -67,7 +67,7 @@ function CreateNewLogbook(){
             <div className="create-new-logbook internal bg-stone-100 h-screen flex max-[850px]:block">
                 <Nav mask={true}/>
                 <div className="relative w-full m-auto max-[850px]:mt-5">
-                    <div className="w-full py-7 mx-10 max-[680px]:mx-5" >
+                    <div className="w-11/12 py-7 m-auto max-[680px]:mx-5 max-[680px]:px-0" >
                         <h2 className="text-3xl mb-2">Default Data</h2>
                         <p className="text-gray-500">We’ll need some default data from you to use across this logbook</p>
                     </div>

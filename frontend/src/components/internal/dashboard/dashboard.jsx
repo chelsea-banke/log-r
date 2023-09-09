@@ -16,20 +16,20 @@ function Dashboard(){
             <div className="dashboard internal bg-stone-100 h-screen flex max-[850px]:block">
                 <Nav dashboard={true} />
                 <main className="relative w-full max-[850px]:mt-20">
-                    <header className="w-full flex justify-between p-5 mt-2">
+                    <header className="w-full flex justify-between py-5 mt-2 max-[500px]:mx-4">
                         <div>
                             <div className="ml-12 max-[500px]:ml-0">
                                 <h2 className="text-4xl">Hello {user["first_name"]},</h2>
                                 <p className="text-sm text-gray-500">Welcome back!</p>
                             </div>                        
                         </div>
-                        <div className="flex w-fit max-[850px]:hidden">
+                        {/* <div className="flex w-fit max-[850px]:hidden">
                             <div className="mr-3 mt-1"><img src="avatar.svg"/></div>
                             <div>
                                 <h2>{user["first_name"]} {user["last_name"]}</h2>
                                 <p className="text-sm text-gray-500">{user["email"]}</p>
                             </div>
-                        </div>
+                        </div> */}
                     </header>
                     <div className="w-full justify-between max-[750px]:block main">
                         <section className="mt-10 max-[750px]:w-full">

@@ -10,10 +10,15 @@ nav{
 .menu{
     width: 40px !important;
 }
-.bg-purple-200{
-    background-color:rgb(233 213 255);
+.bg-blue-200{
+    background-color:#bcd6ff;
+    color: rgb(104, 104, 104);
+    font-weight: bold;
 }
 @media screen and (max-width: 850px) {
+    .lo{
+        width: 100% !important;
+    }
     nav{
         position: fixed !important;
     }
@@ -58,10 +63,22 @@ nav{
     100%{left: -230px}
 }
 @keyframes mask-in {
-    0%{left: -100vw}
-    100%{left: 0px}
+    0%{
+        left: -100vw;
+        opacity: 0;
+    }
+    100%{
+        left: 0px;
+        opacity: 1;
+    }
 }
 @keyframes mask-out {
-    0%{left: 0px}
-    100%{left: -100vw}
+    0%{
+        left: 0px;
+        opacity: 1;
+    }
+    100%{
+        left: -100vw;
+        opacity: 0;
+    }
 }

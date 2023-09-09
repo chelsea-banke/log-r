@@ -10,6 +10,11 @@ header{
     top: -60px !important;
     z-index: 3;
 }
+.edit-icon{
+    display: inline;
+    width: 25px;
+    margin-top: -2px;
+}
 .hold{
     top: -5px;
     z-index: 2;
