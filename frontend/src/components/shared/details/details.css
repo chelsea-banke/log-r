@@ -1,0 +1,100 @@
+.details-container{
+    z-index: 299;
+}
+.details{
+    width: 400px;
+    z-index: 3;
+    height: fit-content !important;
+    min-height: 100vh;
+    left: -400px;
+}
+.overlay{
+    background-color: rgba(0, 0, 0, 0.525);
+    z-index: 3;
+    left: -100vw;
+}
+.overlay-in{
+    animation: overlay-in 1s !important;
+    left: 0px;
+}
+.overlay-out{
+    animation: overlay-out 1s !important; 
+    left: -100vw;
+}
+.detail-in{
+    animation: detail-in 1s !important;
+    left: 0px;
+}
+.detail-out{
+    animation: detail-out 1s !important; 
+    left: -400px;
+}
+@keyframes detail-in {
+    0%{left: -400px}
+    100%{left: 0px}
+}
+@keyframes detail-out {
+    0%{left: 0px}
+    100%{left: -400px}
+}
+@keyframes overlay-in {
+    0%{
+        left: -100vw;
+        opacity: 0;
+    }
+    100%{
+        left: 0px;
+        opacity: 1;
+    }
+}
+@keyframes overlay-out {
+    0%{
+        left: 0px;
+        opacity: 1;
+    }
+    100%{
+        left: -100vw;
+        opacity: 0;
+    }
+}
+@media screen and (max-width:850px) {
+    .details{
+        width: 100vw;
+        min-height: 100vh;
+        left: 0px;
+        top: -150vh;
+        z-index: 201;
+    }
+    .detail-in{
+        animation: detail-in 1.5s !important;
+        top: -81px;
+    }
+    .detail-out{
+        animation: detail-out 1s !important; 
+        top: -150vh;
+    }
+    @keyframes detail-in {
+        0%{
+            top: -150vh;
+            opacity: 0;
+            background-color: black;
+        }
+        100%{
+            top: -81px;
+            opacity: 1;
+            background-color: white;
+        }
+    }
+    @keyframes detail-out {
+        0%{
+            top: -81px;
+            opacity: 1;
+            background-color: white;
+        }
+        100%{
+            top: -150vh;
+            opacity: 0;
+            background-color: black;
+        }
+    }
+}

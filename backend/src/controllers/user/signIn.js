@@ -27,12 +27,13 @@ const signIn = async (req, res, next)=>{
                         })
                         
                         await Logbooks.findAll({"where": {"user_id": userData["email"]}}).then(logbooks=>{
-                            userData["logbooks"] = logbooks.map(logbook=>{
-                                return({
-                                    "title": logbook["title"],
-                                    "status": logbook["status"]
-                                })
-                            })
+                            userData["logbooks"] = logbooks
+                            // .map(logbook=>{
+                            //     return({
+                            //         "title": logbook["title"],
+                            //         "status": logbook["status"]
+                            //     })
+                            // })
 
                             delete userData.password
                             res.status(200).json({

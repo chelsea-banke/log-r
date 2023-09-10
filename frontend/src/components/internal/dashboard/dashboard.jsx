@@ -6,16 +6,28 @@ import Nav from "../../shared/nav/nav";
 import MobileLoglist from "../../shared/logbooks/mobile-loglist";
 import DesktopLoglist from "../../shared/logbooks/desktop-loglist";
 import Stats from "../../shared/stats/stats";
+import Details from "../../shared/details/details";
 import './dashboard.css'
 
 function Dashboard(){
     const user = useUser()
+    const [detailToDisplay, setDetailToDisplay] = useState(null)
+    const [overlayDisplay, setOverlayDisplay] = useState("")
+    const [detailDisplay, setDetailDisplay] = useState("")
     const navigate = useNavigate()
+
+    const detailDisplayHandler = (title, overlay="overlay-in", detail="detail-in")=>{
+        setDetailToDisplay((user["logbooks"].filter(logbook=>{return(logbook["title"]==title)}))[0])
+        setOverlayDisplay(overlay)
+        setDetailDisplay(detail)
+    }
+    
     if(user){
         return(
             <div className="dashboard internal bg-stone-100 h-screen flex max-[850px]:block">
                 <Nav dashboard={true} />
                 <main className="relative w-full max-[850px]:mt-20">
+                    <Details overlayDisplay={overlayDisplay} detailDisplay={detailDisplay} logbook={detailToDisplay} detailDisplayHandler={detailDisplayHandler}/>
                     <header className="w-full flex justify-between py-5 mt-2 max-[500px]:mx-4">
                         <div>
                             <div className="ml-12 max-[500px]:ml-0">
@@ -33,8 +45,8 @@ function Dashboard(){
                     </header>
                     <div className="w-full justify-between max-[750px]:block main">
                         <section className="mt-10 max-[750px]:w-full">
-                            <MobileLoglist maxWhidth="850px"/>
-                            <DesktopLoglist  minWidth="850px"/>
+                            <MobileLoglist maxWhidth="850px" detailDisplayHandler={detailDisplayHandler}/>
+                            <DesktopLoglist  minWidth="850px" detailDisplayHandler={detailDisplayHandler}/>
                         </section>
                         <section className="mt-14 max-[750px]:w-full">
                             <Stats/>

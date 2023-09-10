@@ -11,7 +11,7 @@ function Nav({dashboard=false, logbooks=false, guide=false, settings=false, cont
 
     return(
         <div className="">
-            <button onClick={()=>{navigate(-1)}} className="absolute z-50 bg-stone-100 rounded-full p-3 block right-10 top-8 border-4 border-blue-500 max-[850px]:hidden">
+            <button onClick={()=>{navigate(-1)}} className="z-50 absolute bg-stone-100 rounded-full p-3 block right-10 top-8 border-4 border-blue-500 max-[850px]:hidden">
                 <img className="" src="back.png"/>
             </button>
             <nav className={`relative nav bg-white border-r border-blue-400 h-full ${display} max-[850px]:fixed`}>

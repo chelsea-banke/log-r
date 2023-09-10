@@ -4,7 +4,7 @@ import axios from "axios"
 import { useUser } from "../../../context/userContext"
 import { useUpdateLogbook } from "../../../context/logbookContext"
 
-function MobileLoglist({maxWidth="850px"}){
+function MobileLoglist({maxWidth="850px", detailDisplayHandler}){
     const navigate = useNavigate()
     const user = useUser()
     const updateLogbook = useUpdateLogbook()
@@ -33,9 +33,18 @@ function MobileLoglist({maxWidth="850px"}){
         }
         else {
             return(list.map(item=>{
-                    return <div className="w-full">
-                        <button onClick={()=>getLogbook(item["title"])} className="bg-violet-100 w-full text-left text-violet-900 py-2 px-3 my-1 rounded-md hover:bg-violet-200">{item["title"]}</button>
-                    </div>
+                    return(
+                        <div className="w-full">
+                                <div className="bg-violet-100 flex justify-between w-full text-left text-violet-900 py-2 px-3 my-1 rounded-px-3 rounded-md hover:bg-violet-200md hover:bg-violet-200 transition-all">
+                                    <button className="w-11/12 h-full text-left hover:text-white transition-all" onClick={(e)=>{getLogbook(item["title"])}}>{item["title"]}</button>
+                                    <button className="bg-white rounded-full outline-1 hover:outline text-black" onClick={()=>{
+                                        detailDisplayHandler(item["title"])
+                                    }}>info
+                                        <img className="inline w-1/4" src="info.svg"/>
+                                    </button>
+                                </div>
+                        </div>
+                    )
                 })
             )
         }

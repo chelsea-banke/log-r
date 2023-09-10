@@ -1,5 +1,6 @@
 import { useUser } from '../../../context/userContext'
 import { useLogbook, useUpdateLogbook } from '../../../context/logbookContext'
+import Details from "../../shared/details/details"
 import Redirect from '../../shared/redirect'
 import { Link } from 'react-router-dom'
 import axios from "axios"
@@ -17,6 +18,16 @@ function Book(){
 
     let weeksRange = []
     for(let w=1; w<=logbook["weeks"]; w++){weeksRange.push(w)}
+
+    const [detailToDisplay, setDetailToDisplay] = useState((user["logbooks"].filter(lb=>{return(lb["title"] == logbook["title"])}))[0])
+    const [overlayDisplay, setOverlayDisplay] = useState("")
+    const [detailDisplay, setDetailDisplay] = useState("")
+
+    const detailDisplayHandler = (title, overlay="overlay-in", detail="detail-in")=>{
+        setDetailToDisplay((user["logbooks"].filter(logbook=>{return(logbook["title"]==title)}))[0])
+        setOverlayDisplay(overlay)
+        setDetailDisplay(detail)
+    }
 
     const [editing, setEditing] = useState(false)
     const [updateData, setUpdateData] = useState("")
@@ -80,13 +91,19 @@ function Book(){
             return(
                 <div className="book internal bg-stone-100 h-screen flex max-[850px]:block">
                     <Nav dashboard={true} />
-                    <div className="book relative w-full max-[850px]:pt-20" id='window'>
+                    <div className="book relative w-full max-[850px]:pt-20 min-h-screen" id='window'>
+                    <Details overlayDisplay={overlayDisplay} detailDisplay={detailDisplay} logbook={detailToDisplay} detailDisplayHandler={detailDisplayHandler}/>
                         <header className="w-full flex justify-start p-5 mt-2 top-0 max-[850px]:justify-end">
                             <div className='w-fit mx-5 max-[850px]:mx-0'>
-                                <h2 className='text-4xl font-semibold'>{logbook["title"]}</h2>
-                                <div className='w-full flex justify-between mt-2'>
-                                    <button className="text-sm text-white py-1 px-4 border bg-green-500 rounded-md">Preview</button>
-                                    <button className="text-sm py-1 px-4 rounded-md text-white bg-blue-500">Download</button>
+                                <h2 className='text-4xl font-semibold cursor-pointer hover:text-gray-600' onClick={()=>{
+                                        detailDisplayHandler(logbook["title"])
+                                    }}>
+                                    {logbook["title"]}
+                                    <img className="inline info-img w-1/12 mb-1" src="info.svg"/>
+                                </h2>
+                                <div className='w-full flex justify-start'>
+                                    <button className="text-sm text-white py-1 px-4 border bg-green-500 rounded-md w-1/2">Preview</button>
+                                    <button className="text-sm py-1 px-4 rounded-md text-white bg-blue-500  w-1/2">Download</button>
                                 </div>
                             </div>
                         </header>
