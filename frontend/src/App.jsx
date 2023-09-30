@@ -1,7 +1,9 @@
 import { useState } from 'react'
 import { Routes, Route, Navigate } from 'react-router-dom'
-import { UserProvider, useUser } from './context/userContext'
+import { UserProvider } from './context/userContext'
 import { LogbookProvider } from './context/logbookContext'
+import { RoleProvider } from './context/roleContext'
+import { UsersProvider } from './context/usersContext'
 
 import Home from './components/external/home/home'
 import Login from './components/external/login/login'
@@ -19,26 +21,28 @@ import Redirect from './components/shared/redirect'
 import './App.css'
 
 function App() {
-  const user = useUser()
-  const [count, setCount] = useState(0)
 
   return (
     <div className="font-nunito">
       <UserProvider value={undefined}>
         <LogbookProvider value={undefined}>
-          <Routes>
-            <Route exact path="/" element={<Home/>} />
-            <Route path='/login' element={<Login/>} />
-            <Route path='/signup' element={<Signup/>} />
-            <Route path='/dashboard' element={<Dashboard/>} />
-            <Route path='/logbooks' element={<Logbooks/>} />
-            <Route path='/create-new-logbook' element={<CreateNewLogbook/>} />
-            <Route path='/guide' element={<Guide/>} />
-            <Route path='/logbook' element={<Book/>} />
-            <Route path='/create-new-log' element={<CreateNewLog/>} />
-            <Route path='/settings' element={<Settings/>} />
-            <Route path='/contact' element={<Contact/>} />
-          </Routes>
+          <RoleProvider value={undefined}>
+            <UsersProvider value={undefined}>
+              <Routes>
+                <Route exact path="/" element={<Home/>} />
+                <Route path='/login' element={<Login/>} />
+                <Route path='/signup' element={<Signup/>} />
+                <Route path='/dashboard' element={<Dashboard/>} />
+                <Route path='/logbooks' element={<Logbooks/>} />
+                <Route path='/create-new-logbook' element={<CreateNewLogbook/>} />
+                <Route path='/guide' element={<Guide/>} />
+                <Route path='/logbook' element={<Book/>} />
+                <Route path='/create-new-log' element={<CreateNewLog/>} />
+                <Route path='/settings' element={<Settings/>} />
+                <Route path='/contact' element={<Contact/>} />
+              </Routes>
+            </UsersProvider>
+          </RoleProvider>
         </LogbookProvider>
       </UserProvider>
     </div>

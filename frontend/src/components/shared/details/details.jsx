@@ -10,14 +10,17 @@ export default function Details({overlayDisplay, detailDisplay, logbook, detailD
                     <h2 className='text-4xl font-semibold mb-10 mt-4'>{logbook["title"]}</h2>
                     <button className="absolute top-8 text-red-600 text-lg font-semibold right-5 py-1 px-4 border-2 border-red-600 rounded-full" onClick={()=>{detailDisplayHandler(logbook["title"], "overlay-out", "detail-out")}}>x</button>
                     {Object.keys(logbook).map((key, index) => {
-                        const key2 = key.split("_").join(" ").toUpperCase()
-                        console.log(logbook)
-                        return(<div>
-                            <div className="mb-5">
-                                <span className="font-semibold">{key2}: </span>
-                                <span>{logbook[key]}</span>
-                            </div>
-                        </div>)
+                        if(key!='logs'){
+                            const key2 = key.split("_").join(" ").toUpperCase()
+                            return(
+                                <div>
+                                    <div className="mb-5">
+                                        <span className="font-semibold">{key2}: </span>
+                                        <span>{logbook[key]}</span>
+                                    </div>
+                                </div>
+                            )
+                        }
                     })}
                 </div>
             </div>

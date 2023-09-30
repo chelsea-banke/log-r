@@ -18,6 +18,10 @@ const Users = connection.define('users', {
         "password": {
             "type": DataTypes.STRING,
             "allowNull": false
+        },
+        "role": {
+            "type": DataTypes.STRING,
+            "allowNull": false,
         }
     }, {
         timestamps: false

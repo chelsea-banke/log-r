@@ -22,6 +22,15 @@
     overflow-y: scroll;
 }
 
+.summary-display{
+    min-width: 350px;
+    max-width: 350px;
+}
+.summary-in-btn{
+    margin-left: -25px !important;
+    margin-top: -0px;
+}
+
 /* width */
 ::-webkit-scrollbar {
     width: 5px;
@@ -46,5 +55,18 @@
 @media screen and (max-width: 750px) {
     .main{
         margin-top: -30px !important;
+    }
+}
+@media screen and (max-width: 650px) {
+    .summary-display{
+        position: absolute;
+        width: 100%;
+        max-width: none;
+        min-height: 100%;
+        height: fit-content;
+        right: 0%;
+    }
+    .summary-out{
+        right: -100%;
     }
 }

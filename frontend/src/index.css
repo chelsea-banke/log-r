@@ -7,3 +7,10 @@
     overflow: hidden;
     overflow-y: auto;
 }
+
+button{
+    transition: all ease 0.15s !important;
+}
+button:active{
+    transform: scale(0.9) !important;
+}

@@ -1,33 +1,44 @@
 const connection = require("../utils/connection")
 const { DataTypes } = require("sequelize")
-const Logbooks = require("./logbooks")
+const Manuals = require("./manuals")
 
 const Logs = connection.define("logs", {
-    "date": {
-        "type": DataTypes.STRING,
-        "primaryKey": true,
-        "allowNull": false
-    },
     "week": {
         "type": DataTypes.INTEGER,
         "allowNull": false
     },
-    "activity": {
+    "objectives": {
         "type": DataTypes.STRING,
         "allowNull": true
     },
-    "logbook_id": {
+    "outcome": {
+        "type": DataTypes.STRING,
+        "allowNull": true
+    },
+    "remarks": {
+        "type": DataTypes.STRING,
+        "allowNull": true
+    },
+    "review": {
+        "type": DataTypes.STRING,
+        "allowNull": true
+    },
+    "status": {
+        "type": DataTypes.STRING,
+        "allowNull": true
+    },
+    "manual_id": {
         "references": {
-            "model": Logbooks,
+            "model": Manuals,
             "key": "title"
         },
         "type": DataTypes.STRING,
         "primaryKey": true,
         "allowNull": false
     },
-    "user_logbook_id": {
+    "manual_user_id": {
         "references": {
-            "model": Logbooks,
+            "model": Manuals,
             "key": "user_id",
         },
         "type": DataTypes.STRING,

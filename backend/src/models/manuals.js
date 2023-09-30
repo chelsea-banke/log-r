@@ -2,7 +2,7 @@ const connection = require("../utils/connection")
 const { DataTypes } = require("sequelize")
 const Users = require("./users")
 
-const Logbooks = connection.define("logbooks", {
+const Manuals = connection.define("manuals", {
 	"intern_name": {
         "type": DataTypes.STRING,
         "allowNull": false
@@ -63,4 +63,4 @@ const Logbooks = connection.define("logbooks", {
     "timestamps": false
 })
 
-module.exports = Logbooks
+module.exports = Manuals

@@ -1,23 +1,28 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { useUpdateUser, useUser } from '../../../context/userContext'
+import { useUpdateUser} from '../../../context/userContext'
+import { useUpdateRole } from '../../../context/roleContext'
+import { useUpdateUsers } from '../../../context/usersContext'
 import auth from "../../../services/auth"
 import InputField from '../../shared/input/input'
 import Google from './assets/google.svg'
 import './login.css'
 
 function Login(){
-    const updateUer = useUpdateUser()
+    const updateUser = useUpdateUser()
+    const updateRole = useUpdateRole()
+    const updateUsers = useUpdateUsers()
     const navigate = useNavigate()
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
 
     const formSubmit = async (e)=>{
-        console.log("submit")
         e.preventDefault()
-        await auth.signIn(email, password).then(user=>{
-            if(user){
-                updateUer(user)
+        await auth.signIn(email, password).then(response=>{
+            if(response["user"] && response["users"]){
+                updateUser(response["user"])
+                updateUsers(response["users"])
+                updateRole(response["user"]["role"])
                 navigate("/dashboard")
             }
             else{

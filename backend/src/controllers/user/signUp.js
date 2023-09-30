@@ -13,7 +13,7 @@ const signUp = async (req, res)=>{
                 bcrypt.genSalt(10).then(salt=>{
                     bcrypt.hash(credentials["password"], salt).then(async hashedPassword=>{
                         credentials["password"] = hashedPassword
-
+                        credentials["role"]="regular"
                         await Users.create(credentials).then(newUser=>{
                             const userData = newUser["dataValues"]
                             const token = jwt.sign(
@@ -24,7 +24,7 @@ const signUp = async (req, res)=>{
                             
                             res.cookie("jwt", token, {
                                 "httpOnly": true,
-                                "maxAge": 3600
+                                "maxAge": 3600000
                             })
 
                             delete userData.password

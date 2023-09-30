@@ -11,7 +11,7 @@ function Nav({dashboard=false, logbooks=false, guide=false, settings=false, cont
 
     return(
         <div className="">
-            <button onClick={()=>{navigate(-1)}} className="z-50 absolute bg-stone-100 rounded-full p-3 block right-10 top-8 border-4 border-blue-500 max-[850px]:hidden">
+            <button onClick={()=>{navigate(-1)}} className="z-50 absolute rounded-full p-3 block right-2 top-6 max-[850px]:hidden">
                 <img className="" src="back.png"/>
             </button>
             <nav className={`relative nav bg-blue-400 border-r border-blue-400 h-full ${display} max-[850px]:fixed`}>
@@ -34,7 +34,7 @@ function Nav({dashboard=false, logbooks=false, guide=false, settings=false, cont
                     </Link>
                 </div>
                 <div className="w-full absolute bottom-8 lo">
-                    <Link className="flex m-auto w-fit max-[850px]:hidden" to='user-profile'>
+                    <Link className="flex mx-3 w-fit max-[850px]:hidden" to='user-profile'>
                         <div className="mt-1"><img src="avatar.svg"/></div>
                         <div>
                             <h2 className="text-white border-b-2">{user["first_name"]} {user["last_name"]}</h2>

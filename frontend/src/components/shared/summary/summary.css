@@ -1,0 +1,13 @@
+.summary-accordion {
+    height: fit-content;
+    max-height: 0px;
+    overflow: hidden;
+    transition: max-height 0.2s ease-out;
+}
+.quick-img{
+    padding-left: 4px;
+    padding-right: 4px;
+}
+.quick-img img{
+    width: 18px;
+}

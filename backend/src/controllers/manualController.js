@@ -1,58 +1,56 @@
 const e = require("express")
-const Logbooks = require("../models/logbooks")
+const Manuals = require("../models/manuals")
 const Logs = require("../models/logs")
 const fieldCheck = require("../utils/fieldCheck")
 
-const createLogbook = async (req, res)=>{
+const createManual = async (req, res)=>{
     const email = res.locals.authEmail
-    const logbookData = req.body
-    if(fieldCheck(logbookData)){
-        await Logbooks.findAll({"where":{
-            "title": logbookData["title"],
+    const manualData = req.body
+    if(fieldCheck(manualData)){
+        await Manuals.findAll({"where":{
+            "title": manualData["title"],
             "user_id": email
         }
-        }).then(async logbooks=>{
-            const logbook = logbooks[0]
-            if(logbook){
+        }).then(async manuals=>{
+            const manual = manuals[0]
+            if(manual){
                 res.status(400).json({
                     "success": false,
-                    "message": `logbook with title ${logbookData["title"]} already exist`
+                    "message": `manual with title ${manualData["title"]} already exist`
                 })
             }
             else{
-                logbookData["user_id"] = email
-                await Logbooks.create(logbookData).then(async logbook=>{
-                    let date = new Date(logbookData["start_date"])
-                    for(let week = 1; week <= logbookData["weeks"]; week++){
-                        for(let day = 1; day <= 7; day++){
-                            if(day <= 5){
-                                await Logs.create({
-                                    "date": date.toLocaleDateString(),
-                                    "week": week,
-                                    "activity": '',
-                                    "logbook_id": logbookData["title"],
-                                    "user_logbook_id": email
-                                })
-                            }
-                            date.setDate(date.getDate()+1)
-                        }
+                manualData["user_id"] = email
+                await Manuals.create(manualData).then(async manual=>{
+                    console.log(manualData)
+                    for(let week = 1; week <= parseInt(manualData["weeks"]); week++){
+                        await Logs.create({
+                            "week": week,
+                            "objectives": '',
+                            "outcome": '',
+                            "remarks": "",
+                            "review": "",
+                            "status": "pending",
+                            "manual_id": manualData["title"],
+                            "manual_user_id": email
+                        })
                     }
                     await Logs.findAll({"where": {
-                        "logbook_id": logbookData["title"],
-                        "user_logbook_id": email
+                        "manual_id": manualData["title"],
+                        "manual_user_id": email
                     }}).then(logs=>{
-                        logbook["logs"] = logs.map(log=>{return(log["dataValues"])})
+                        manual["logs"] = logs.map(log=>{return(log["dataValues"])})
                         res.status(200).json({
                             "success": true,
-                            "message": "successfull creation of logbook",
-                            "logbook": logbook
+                            "message": "successfull creation of manual",
+                            "manual": manual
                         })
                     })
                 }).catch(error=>{
                     res.status(401).json({
                         "success": false,
-                        "message": "error creating logbook",
-                        "error": error.message
+                        "message": "error creating manual",
+                        "error": error
                     })
                 })
             }
@@ -67,38 +65,39 @@ const createLogbook = async (req, res)=>{
     }
 }
 
-const getLogbook = async (req, res)=>{
-    const email = res.locals.authEmail
+const getManual = async (req, res)=>{
+    const email = req.params["email"].slice(1)
     const title = req.params["title"].slice(1)
+    console.log(email, title)
     if(title){
-        await Logbooks.findAll({"where": {
+        await Manuals.findAll({"where": {
             "user_id": email,
             "title": title
-        }}).then(async logbooks=>{
-            const logbook = logbooks[0]["dataValues"]
-            if(logbook){
+        }}).then(async manuals=>{
+            const manual = manuals[0]["dataValues"]
+            if(manual){
                 await Logs.findAll({"where": {
-                    "logbook_id": logbook["title"],
-                    "user_logbook_id": email
+                    "manual_id": manual["title"],
+                    "manual_user_id": email
                 }}).then(logs=>{
-                    logbook["logs"] = logs.map(log=>{return(log["dataValues"])})
+                    manual["logs"] = logs.map(log=>{return(log["dataValues"])})
                     res.status(200).json({
                         "success": true,
-                        "message": "logbook fetch successfull",
-                        "logbook": logbook
+                        "message": "manual fetch successfull",
+                        "manual": manual
                     })
                 })
             }
             else{
                 res.status(400).json({
                     "success": false,
-                    "message": `user ${email} has no logbook titled ${title}`,
+                    "message": `user ${email} has no manual titled ${title}`,
                 })
             }
         }).catch(error=>{
             res.status(401).json({
                 "success": false,
-                "message": "error fetching logbook",
+                "message": "error fetching manual",
                 "error": error.message
             })
         })
@@ -111,29 +110,29 @@ const getLogbook = async (req, res)=>{
     }
 }
 
-const updateLogbook = async (req, res)=>{
+const updateManual = async (req, res)=>{
     const email = res.locals.authEmail
     const title = req.params["title"].slice(1)
-    const logbookData = req.body
-    if(fieldCheck(logbookData)){
-        await Logbooks.findAll({"where": {
+    const manualData = req.body
+    if(fieldCheck(manualData)){
+        await Manuals.findAll({"where": {
             "user_id": email,
             "title": title
-        }}).then(async logbooks=>{
-            if(logbooks[0]){
-                await Logbooks.update(logbookData, {"where": {
+        }}).then(async Manuals=>{
+            if(Manuals[0]){
+                await Manuals.update(manualData, {"where": {
                     "user_id": email,
                     "title": title
                 }}).then(results=>{
                     res.status(200).json({
                         "success": true,
-                        "message": "logbook successfully updated",
-                        "logbook": logbookData
+                        "message": "manual successfully updated",
+                        "manual": manualData
                     })
                 }).catch(error=>{
                     res.status(401).json({
                         "success": false,
-                        "message": "error updating logbook",
+                        "message": "error updating manual",
                         "error": error.message
                     })
                 })
@@ -141,7 +140,7 @@ const updateLogbook = async (req, res)=>{
             else{
                 res.status(400).json({
                     "success": false,
-                    "message": `user ${email} has no logbook titled ${title}`,
+                    "message": `user ${email} has no manual titled ${title}`,
                 })
             }
         })
@@ -154,16 +153,16 @@ const updateLogbook = async (req, res)=>{
     }
 }
 
-const deleteLogbook = async (req, res)=>{
+const deleteManual = async (req, res)=>{
     const email = res.locals.authEmail
     const title = req.params["title"].slice(1)
     if(title){
-        await Logbooks.findAll({"where": {
+        await Manuals.findAll({"where": {
             "user_id": email,
             "title": title
-        }}).then(async logbooks=>{
-            if(logbooks[0]){
-                await Logbooks.destroy({"where": {
+        }}).then(async manuals=>{
+            if(manuals[0]){
+                await Manuals.destroy({"where": {
                     "user_id": email,
                     "title": title
                 }}).then(results=>{
@@ -174,7 +173,7 @@ const deleteLogbook = async (req, res)=>{
                 }).catch(error=>{
                     res.status(401).json({
                         "success": false,
-                        "message": "error deleting logbook",
+                        "message": "error deleting manual",
                         "error": error.message
                     })
                 })
@@ -182,7 +181,7 @@ const deleteLogbook = async (req, res)=>{
             else{
                 res.status(400).json({
                     "success": false,
-                    "message": `user ${email} has no logbook titled ${title}`,
+                    "message": `user ${email} has no manual titled ${title}`,
                 })
             }
         })
@@ -195,5 +194,4 @@ const deleteLogbook = async (req, res)=>{
     }
 }
 
-
-module.exports = { createLogbook, getLogbook, updateLogbook, deleteLogbook }
+module.exports = { createManual, getManual, updateManual, deleteManual }

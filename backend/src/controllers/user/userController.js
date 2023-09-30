@@ -1,5 +1,7 @@
 const bcrypt = require("bcryptjs")
 const Users = require("../../models/users")
+const Manuals = require("../../models/manuals")
+const Logs = require("../../models/logs")
 const fieldCheck = require("../../utils/fieldCheck")
 
 const updatePassword = async (req, res)=>{
@@ -117,14 +119,56 @@ const deleteUser = async (req, res)=>{
 }
 
 const getUser = async (req, res)=>{
-    const email = res.locals.authEmail
-    await Users.findByPk(email).then(user=>{
-        const userData = user["dataValues"]
+    const email = req.params["email"].slice(1)
+    // console.log(email)
+    await Users.findByPk(email).then(async user=>{
+        console.log(email)
+        const userData = user.dataValues
+
+        if(userData["role"]=="admin"){
+            await Manuals.findAll().then(async manuals=>{
+                userData["logbooks"] = await Promise.all(manuals.map(async manual=>{
+                    const logs = await Logs.findAll({"where": {
+                        "manual_id": manual["dataValues"]["title"],
+                        "manual_user_id": manual["dataValues"]["user_id"]
+                    }})
+                    manual["dataValues"]["logs"] = logs.map(log=>{return(log["dataValues"])})
+                    return manual["dataValues"]
+                }))
+            })
+            .catch(error=>{
+                res.status(401).json({
+                    "success": false,
+                    "message": "error fetching Manuals",
+                    "error": error.message
+                })
+            })
+        }
+        else{
+            await Manuals.findAll({"where": {"user_id": userData["email"]}}).then(async manuals=>{
+                userData["logbooks"] = await Promise.all(manuals.map(async manual=>{
+                    const logs = await Logs.findAll({"where": {
+                        "manual_id": manual["dataValues"]["title"],
+                        "manual_user_id": manual["dataValues"]["user_id"]
+                    }})
+                    manual["dataValues"]["logs"] = logs.map(log=>{return(log["dataValues"])})
+                    return manual["dataValues"]
+                }))
+            })     
+            .catch(error=>{
+                res.status(401).json({
+                    "success": false,
+                    "message": "error fetching Manuals",
+                    "error": error.message
+                })
+            })
+        }
+        
         delete userData.password
         res.status(200).json({
             "success": true,
-            "message": "successfull fetch of user data",
-            "data": userData
+            "message": "signIn successful",
+            "user": userData
         })
     }).catch(error=>{
         res.status(400).json({
@@ -134,4 +178,40 @@ const getUser = async (req, res)=>{
         })
     })
 }
-module.exports = { updatePassword, updateUser, deleteUser, getUser }
+
+const getAll = async (req, res)=>{
+    await Users.findAll().then(async users=>{
+        await Promise.all(
+            users.map(async user=>{
+                const userData = user["dataValues"]
+                await Manuals.findAll({"where": {"user_id": userData["email"]}}).then(manuals=>{
+                    userData["logbooks"] = manuals.map(manual=>{
+                        return manual["dataValues"]
+                    })
+                    delete userData.password
+                    return userData
+                })
+                .catch(error=>{
+                    res.status(401).json({
+                        "success": false,
+                        "message": "error fetching Manuals",
+                        "error": error
+                    })
+                })
+            })
+        )
+        res.status(200).json({
+            "success": true,
+            "message": "signIn successful",
+            "users": users
+        })
+    }).catch(error=>{
+        res.status(400).json({
+            "success": false,
+            "message": "error fetching user",
+            "error": error.message
+        })
+    })
+}
+
+module.exports = { updatePassword, updateUser, deleteUser, getUser, getAll }

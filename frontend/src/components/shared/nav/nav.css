@@ -3,9 +3,9 @@ nav{
     z-index: 300;
 }
 .mobile-nav{
-    background-color: rgba(245, 245, 244, 0.527);
+    background-color: rgba(245, 245, 244);
     z-index: 200;
-    backdrop-filter: blur(5px);
+    /* backdrop-filter: blur(5px); */
 }
 .menu{
     width: 40px !important;
@@ -14,6 +14,9 @@ nav{
     background-color: whitesmoke !important;
     color: rgb(104, 104, 104);
     font-weight: bold;
+}
+.mobile-default{
+    left: -230px;
 }
 @media screen and (max-width: 850px) {
     .lo{
@@ -32,19 +35,19 @@ nav{
         z-index: 4 !important;
     }
     .mask-in{
-        animation: mask-in 1s !important;
+        animation: mask-in 0.5s !important;
         left: 0px;
     }
     .mask-out{
-        animation: mask-out 1s !important; 
+        animation: mask-out 0.5s !important; 
         left: -100vw;
     }
     .slide-in{
-        animation: nav-in 1s !important;
+        animation: nav-in 0.5s !important;
         left: 0px;
     }
     .slide-out{
-        animation: nav-out 1s !important; 
+        animation: nav-out 0.5s !important; 
         left: -230px;
     }
     .default-nav{

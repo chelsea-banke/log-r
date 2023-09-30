@@ -33,7 +33,7 @@ function CreateNewLogbook(){
             alert("Date Must Be A Monday !!!")
             return
         }
-        await axios.post("http://localhost:3000/api/logbook/create-new", {
+        await axios.post("http://localhost:3000/api/manual/create-new", {
             "intern_name": interName,
             "matricule": matricule,
             "department": department,
@@ -49,10 +49,10 @@ function CreateNewLogbook(){
         },
         {withCredentials: true}).then(respond=>{
             if (respond.data.success){
-                user["logbooks"].push(respond.data.logbook["title"])
+                user["logbooks"].push(respond.data.manual["title"])
                 updateUser(user)
-                updateLogbook(respond.data.logbook)
-                navigate("/logbook")
+                updateLogbook(respond.data.manual)
+                navigate("/dashboard")
             }
             else{
                 e.target.reset()
@@ -65,7 +65,7 @@ function CreateNewLogbook(){
     if(user){
         return(
             <div className="create-new-logbook internal bg-stone-100 h-screen flex max-[850px]:block">
-                <Nav mask={true}/>
+                <Nav/>
                 <div className="relative w-full m-auto max-[850px]:mt-5">
                     <div className="w-11/12 py-7 m-auto max-[680px]:mx-5 max-[680px]:px-0" >
                         <h2 className="text-3xl mb-2">Default Data</h2>

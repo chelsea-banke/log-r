@@ -1,23 +1,20 @@
+import { useReducer, useState, useEffect } from 'react'
 import { useUser } from '../../../context/userContext'
+import { useRole } from '../../../context/roleContext'
 import { useLogbook, useUpdateLogbook } from '../../../context/logbookContext'
+import axios from "axios"
 import Details from "../../shared/details/details"
 import Redirect from '../../shared/redirect'
-import { Link } from 'react-router-dom'
-import axios from "axios"
 import Nav from '../../shared/nav/nav'
-import Building from '../../shared/building/building'
 import './book.css'
-import { useReducer, useState } from 'react'
 
 function Book(){
     const [_, forceUpdate] = useReducer(x => x+1, 0)
     const user = useUser()
+    const role = useRole()
     const logbook = useLogbook()
     const updateLogbook = useUpdateLogbook()
-    // console.log(logbook["logs"])
-
-    let weeksRange = []
-    for(let w=1; w<=logbook["weeks"]; w++){weeksRange.push(w)}
+    // console.log(logbook)
 
     const [detailToDisplay, setDetailToDisplay] = useState((user["logbooks"].filter(lb=>{return(lb["title"] == logbook["title"])}))[0])
     const [overlayDisplay, setOverlayDisplay] = useState("")
@@ -35,18 +32,37 @@ function Book(){
         let temp={} 
         for(let i=1; i<=logbook["weeks"]; i++){
             temp[i] = {
-                "Mon": false, "Tues": false, "Wed": false, "Thurs": false, "Fri": false
+                "Objectives": false, "Outcome": false, "Remark": false, "Review": false
             }
         }
         return temp
     })
 
-    const days = ["Mon", "Tues", "Wed", "Thurs", "Fri"]
 
-    const toogleLogEdit = (week, day, display)=>{
+    useEffect(()=>{
+        const refreshUser = async ()=>{
+            // console.log(logbook[])
+            await axios.get(`http://localhost:3000/api/manual/:${logbook["user_id"]}/:${logbook["title"]}`,
+            {withCredentials: true}).then(response=>{
+                if(response.data.success){
+                    console.log(response.data.manual["logs"])
+                    logbook["logs"] = response.data.manual["logs"]
+                    updateLogbook(logbook)
+                    // toogleLogEdit(week, field, false)
+                }
+            }).catch((error)=>{
+                console.log(error.response ? error.response.data : error)
+            })
+        }
+        refreshUser()
+    })
+
+    const fields = ["objectives", "outcome", "remarks", "review"]
+
+    const toogleLogEdit = (week, field, display)=>{
         let tempLogEdit = logEdit
         display ? setEditing(true) : setEditing(false)
-        tempLogEdit[week][day]=display
+        tempLogEdit[week][field]=display
         setLogEdit(tempLogEdit)
         // setUpdateData("")
         forceUpdate()
@@ -70,34 +86,42 @@ function Book(){
         requestAnimationFrame(animateScroll);
     }
 
-    const updateLog = async (e, log, week, day)=>{
+    const updateLog = async (e, log, week, field, data)=>{
         e.preventDefault()
-        await axios.put(`http://localhost:3000/api/log/:${log["logbook_id"]}/${log["date"].split("/").join("-")}`, {
-            "activity": updateData
+        await axios.put(`http://localhost:3000/api/log/:${log["manual_user_id"]}/:${log["manual_id"]}/:${week}`, {
+            [field]: data
         },{withCredentials: true}).then(results=>{
             if(results.data.success){
-                // console.log(results.data.logs)
+                console.log(results.data.logs)
                 logbook["logs"] = results.data["logs"]
                 updateLogbook(logbook)
-                toogleLogEdit(week, day, false)
+                toogleLogEdit(week, field, false)
             }
         }).catch((error)=>{
             console.log(error.response ? error.response.data : error)
         })
     }
 
+    const clearForm = (week, log, field)=>{
+        document.getElementById(`form-${week}-${field}`).reset()
+        document.getElementById(`${week}-${field}`).setAttribute("value", log[field])
+        document.getElementById(`${week}-${field}`).innerHTML = log[field]
+        console.log(document.getElementById(`${week}-${field}`))
+        toogleLogEdit(week, field, false)
+    }
+
     if (user){
         if(logbook){
             return(
+
                 <div className="book internal bg-stone-100 h-screen flex max-[850px]:block">
                     <Nav dashboard={true} />
                     <div className="book relative w-full max-[850px]:pt-20 min-h-screen" id='window'>
                     <Details overlayDisplay={overlayDisplay} detailDisplay={detailDisplay} logbook={detailToDisplay} detailDisplayHandler={detailDisplayHandler}/>
+
                         <header className="w-full flex justify-start p-5 mt-2 top-0 max-[850px]:justify-end">
                             <div className='w-fit mx-5 max-[850px]:mx-0'>
-                                <h2 className='text-4xl font-semibold cursor-pointer hover:text-gray-600' onClick={()=>{
-                                        detailDisplayHandler(logbook["title"])
-                                    }}>
+                                <h2 className='text-4xl font-semibold cursor-pointer hover:text-gray-600' onClick={()=>{detailDisplayHandler(logbook["title"])}}>
                                     {logbook["title"]}
                                     <img className="inline info-img w-1/12 mb-1" src="info.svg"/>
                                 </h2>
@@ -107,67 +131,101 @@ function Book(){
                                 </div>
                             </div>
                         </header>
-                        <div className='px-10 max-[600px]:px-0'>
-                            {weeksRange.map((week)=>{
+
+                        <div className='px-10 max-[800px]:px-0'>
+                            {logbook["logs"].map((log)=>{
+                                const week = log["week"]
                                 return(
-                                    <div className='mb-10 ' key={week}>
-                                        <div className='sticky hold'>
-                                            <div className='text-violet-600 bg-stone-100 pt-12 max-[850px]:pt-3 max-[600px]:px-4'>Week {week}</div>
-                                            <div className='w-full flex justify-end border-t-2 border-violet-400'>
-                                                {/* <Link to='/create-new-log'>
-                                                    <button className='text-3xl text-violet-600 px-3 py-1 border-2 border-violet-500 rounded-md bg-stone-100'>+</button>
-                                                </Link> */}
-                                            </div>
-                                        </div>
-                                        <div className='flex justify-between flex-wrap mt-2'>
-                                            {logbook["logs"].filter(log=>{return(log["week"]==week)}).map((log)=>{
-                                                const date = new Date(log["date"])
-                                                const day = days[date.getDay()-1]
-                                                return(
+
+                                    <div className='mb-10 bg-gray-600' key={week}>
+                                        <div className='sticky flex justify-between bg-stone-100 hold border-b-4 border-gray-600 pt-12  max-[850px]:pt-2'>
+                                            <div className='flex'>
+                                                <div className='flex bg-gray-600 w-fit px-5 max-[600px]:px-0'>
+                                                    <div className='text-white max-[600px]:ml-4 mt-2'>Week {week}</div>
+                                                    { role!='admin' ? 
                                                     <>
-                                                        <div className={`log p-4 pb-2 rounded-md bg-white mb-10 border ${logEdit[week][day] ? 'hidden' : 'block'}`}>
-                                                            <div className='w-full text-gray-400 mb-2'>
-                                                                <span className='border-b border-violet-600'>{`${date.getDate()}/${date.getMonth()+1}/${date.getFullYear()}`} </span>
-                                                                <span className='text-violet-600 font-medium'>({day})</span>
-                                                            </div>
-                                                            <div className='log-content'>{log["activity"]}</div>
-                                                            <div className='w-full flex justify-between relative'>
-                                                                <div className=''></div>
-                                                                <button onClick={()=>{
-                                                                    if(!editing){
-                                                                        setUpdateData(log["activity"])
-                                                                        toogleLogEdit(week, day, true)
-                                                                    }}}
-                                                                className={`block px-4 ${editing ? 'bg-violet-300' : 'bg-violet-500'} text-white py-1 rounded-md transition-all`}>Edit <img src='edit.png' className='edit-icon'/></button>
+                                                        <button className={`text-white px-3 ml-4 h-fit rounded-md max-[600px]:mr-4 mt-2 ${log["status"]=='review' || log["status"]=='approved' ? "hidden" : ''} ${editing ? 'bg-green-400' : 'bg-green-500'}`} 
+                                                            onClick={(e)=>{{!editing ? updateLog(e, log, week, 'status', 'review') : alert("still editing")}}}>submit
+                                                        </button>
+                                                        <button className={`text-gray-600 px-3 ml-4 h-fit rounded-md max-[600px]:mr-4 mt-2 ${log["status"]=='review' ? 'block' : 'hidden'}  ${editing ? 'bg-yellow-300' : 'bg-yellow-500'}`} 
+                                                            onClick={(e)=>{{!editing ? updateLog(e, log, week, 'status', 'pending') : alert("still editing")}}}>cancel
+                                                        </button>
+                                                    </>
+                                                    : (log["status"]=='review' ? 
+                                                    <>
+                                                        <button className={`text-white px-3 ml-4 h-fit rounded-md mt-2  ${editing ? 'bg-blue-300' : 'bg-blue-500'}`} 
+                                                            onClick={(e)=>{{!editing ? updateLog(e, log, week, 'status', 'approved') : alert("still editing")}}}>approve
+                                                        </button>
+                                                        <button className={`text-gray-600 px-3 ml-4 h-fit rounded-md max-[600px]:mr-4 mt-2 ${editing ? 'bg-yellow-300' : 'bg-yellow-500'}`} 
+                                                            onClick={(e)=>{{!editing ? updateLog(e, log, week, 'status', 'rejected') : alert("still editing")}}}>reject
+                                                        </button>
+                                                    </>
+                                                    :
+                                                    "")
+                                                    }
+                                                </div>
+                                                <div className='ml-3 mt-1'>{log["status"]}</div>
+                                            </div>
+                                            <button className='bg-gray-600 text-white px-4 font-semibold rounded-t accordion-btn' onClick={(e)=>{
+                                                const panel = document.getElementById(`panel-${week}`)
+                                                if (panel.style.maxHeight) {
+                                                    panel.style.maxHeight = null;
+                                                } else {
+                                                    panel.style.maxHeight = panel.scrollHeight + "px";
+                                                }
+                                            }}>+</button>
+                                        </div>
+
+                                        <div className='flex justify-between flex-wrap mt-2 px-2 panel' id={`panel-${week}`}>
+                                            {fields.map((field)=>{
+                                                return(<>
+
+                                                    <div className={`log p-4 pb-2 rounded-md ${ field == 'review' ? 'bg-green-200' : 'bg-white'} mb-5 border ${logEdit[week][field] ? 'hidden' : 'block'}`}>
+                                                        <div className='w-full text-gray-400 mb-2'>
+                                                            <span className={`border-b border-violet-700 ${field=='review' ? 'font-semibold' : ''}`}>{field.toUpperCase()} </span>
+                                                            {/* <span className='text-violet-700 font-medium'>({field})</span> */}
+                                                        </div>
+                                                        <div className={`${field=='review' ? 'review' : ''} log-content`}>{log[field]}</div>
+                                                        <div className='w-full flex justify-between relative'>
+                                                            <div className=''></div>
+                                                            <button onClick={()=>{
+                                                                if(!editing){
+                                                                    setUpdateData(log[field])
+                                                                    toogleLogEdit(week, field, true)
+                                                                }}}
+                                                                className={`
+                                                                    px-4 text-white py-1 rounded-md transition-all
+                                                                    ${editing ? 'bg-gray-400' : 'bg-gray-600'}
+                                                                    ${(role !='admin' && field=='review') 
+                                                                    ||(role =='admin' && field!='review')
+                                                                    ||(log["status"]=="approved") ? 'invisible' : ''}
+                                                                `}>
+                                                                    Edit <img src='edit.png' className='edit-icon'/>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+
+                                                    <form id={`form-${week}-${field}`} className={`log p-4 pb-2 rounded-md bg-white mb-5 border border-green-300 ${logEdit[week][field] ? 'block' : 'hidden'} ${ field == 'review' ? 'bg-green-200' : 'bg-white'} `} onSubmit={(e)=>updateLog(e, log, week, field, updateData)}>
+                                                        <div className='w-full text-gray-400 mb-2'>
+                                                            <span className='border-b border-green-500'>{field.toUpperCase()} </span>
+                                                            {/* <span className='text-green-500 font-medium'>({field})</span> */}
+                                                        </div>
+                                                        <textarea id={`${week}-${field}`} rows={"3"} className={`w-full focus:outline-none ${ field == 'review' ? 'bg-green-200' : 'bg-white'} `} onChange={(e)=>{console.log(e.target.value); setUpdateData(e.target.value)}}>{log["activity"]}</textarea>
+                                                        <div className='w-full flex justify-between mt-2'>
+                                                            <div></div>
+                                                            <div className='flex'>
+                                                                <button type='submit' className='bottom-1 block bg-green-500 text-white px-4 py-1 rounded-md mr-1'>save</button>
+                                                                <button type='button' onClick={()=>{clearForm(week, log, field)}} className='bottom-1 block bg-red-500 text-white px-4 py-1 rounded-md'>cancel</button>
                                                             </div>
                                                         </div>
-                                                        <form id={`form-${week}-${day}`} className={`log p-4 pb-2 rounded-md bg-white mb-10 border border-green-300 ${logEdit[week][day] ? 'block' : 'hidden'}`} onSubmit={(e)=>updateLog(e, log, week, day)}>
-                                                            <div className='w-full text-gray-400 mb-2'>
-                                                                <span className='border-b border-green-500'>{`${date.getDate()}/${date.getMonth()+1}/${date.getFullYear()}`} </span>
-                                                                <span className='text-green-500 font-medium'>({day})</span>
-                                                            </div>
-                                                            <textarea id={`${week}-${day}`} rows={"3"} className='w-full focus:outline-none' onChange={(e)=>{console.log(e.target.value); setUpdateData(e.target.value)}}>{log["activity"]}</textarea>
-                                                            <div className='w-full flex justify-between mt-2'>
-                                                                <div></div>
-                                                                <div className='flex'>
-                                                                    <button type='submit' className='bottom-1 block bg-green-500 text-white px-4 py-1 rounded-md mr-1'>save</button>
-                                                                    <button type='button' onClick={()=>{
-                                                                        document.getElementById(`form-${week}-${day}`).reset()
-                                                                        document.getElementById(`${week}-${day}`).setAttribute("value", log["activity"])
-                                                                        document.getElementById(`${week}-${day}`).innerHTML = log["activity"]
-                                                                        console.log(document.getElementById(`${week}-${day}`))
-                                                                        toogleLogEdit(week, day, false)}} className='bottom-1 block bg-red-500 text-white px-4 py-1 rounded-md'>cancel</button>
-                                                                </div>
-                                                            </div>
-                                                        </form>
-                                                    </>
-                                                )
+                                                    </form>
+                                                </>)
                                             })}
                                         </div>
                                     </div>
                                 )
                             })}
-                            <button className='top p-5 bg-violet-500 border-2 border-stone-100' onClick={()=>scrollToTop('window')}>
+                            <button className='top p-5 bg-blue-500 border-2 border-stone-100' onClick={()=>scrollToTop('window')}>
                                 <img src='top.png'/>
                             </button>
                         </div>

@@ -3,7 +3,7 @@ const express = require('express')
 const cookieParser = require("cookie-parser")
 const cors = require("cors")
 const userRouter = require("./src/routes/user")
-const logbookRouter = require("./src/routes/logbook")
+const manualRouter = require("./src/routes/manual")
 const logRouter = require("./src/routes/log")
 const connection = require("./src/utils/connection")
 
@@ -18,7 +18,7 @@ server.use(express.json())
 server.use(cookieParser())
 server.use(cors(corsOptions))
 server.use("/api/user", userRouter)
-server.use("/api/logbook", logbookRouter)
+server.use("/api/manual", manualRouter)
 server.use("/api/log", logRouter)
 
 server.listen(process.env.SERVER_PORT, async () => {

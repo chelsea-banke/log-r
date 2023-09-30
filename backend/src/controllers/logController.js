@@ -1,4 +1,4 @@
-const Logbooks = require("../models/logbooks")
+const Manuals = require("../models/manuals")
 const Logs = require("../models/logs")
 const fieldCheck = require("../utils/fieldCheck")
 
@@ -7,8 +7,8 @@ const createLog = async (req, res)=>{
     const email = res.locals.authEmail
     const title = res.locals.authTitle
     if (fieldCheck(logData)){
-        logData["logbook_id"] = title
-        logData["user_logbook_id"] = email
+        logData["manual_id"] = title
+        logData["manual_user_id"] = email
         
         await Logs.create(logData).then(results=>{
             res.status(200).json({
@@ -36,8 +36,8 @@ const getLogs = async (req, res)=>{
     const email = res.locals.authEmail
     const title = res.locals.authTitle
     await Logs.findAll({"where": {
-        "user_logbook_id": email,
-        "logbook_id": title
+        "manual_user_id": email,
+        "manual_id": title
     }}).then(logs=>{
         res.status(200).json({
             "success": true,
@@ -54,20 +54,20 @@ const getLogs = async (req, res)=>{
 }
 
 const updateLog = async (req, res)=>{
-    const activity = req.body["activity"]
-    const date = (req.params["date"]).split("-").join("/")
-    const email = res.locals.authEmail
-    const title = res.locals.authTitle
+    const email = req.params["email"].slice(1)
+    const week = req.params["week"].slice(1)
+    const title = req.params["title"].slice(1)
 
-    if(date){
-        await Logs.update({"activity": activity}, {"where": {
-            "date": date,
-            "user_logbook_id": email,
-            "logbook_id": title
+    if(week){
+        await Logs.update(req.body, {"where": {
+            "week": week.toString(),
+            "manual_user_id": email,
+            "manual_id": title
         }}).then(async results=>{
+            console.log(results)
             await Logs.findAll({"where": {
-                "logbook_id": title,
-                "user_logbook_id": email
+                "manual_id": title,
+                "manual_user_id": email
             }}).then(logs=>{
                 res.status(200).json({
                     "success": true,
@@ -79,7 +79,7 @@ const updateLog = async (req, res)=>{
             res.status(401).json({
                 "success": false,
                 "message": "error updating logs",
-                "error": error.message
+                "error": error
             })
         })
     }
